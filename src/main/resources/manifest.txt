@@ -1,0 +1,2 @@
+Boot-Class-Path: javassist.jar
+Premain-Class: SimpleMain
