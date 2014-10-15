@@ -1,13 +1,15 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-class MethodInvocation {
+abstract class MethodInvocation {
     private String type = "methodInvocation";
-    private Date timestamp = new Date();
+    private String phase = getPhase();
+    private long millis = System.currentTimeMillis();
     private String threadName;
     private String signature;
     private List<Parameter> params;
+
+    protected abstract String getPhase();
 
     void setParams(String[] paramNames, Object[] paramValues) {
         params = new ArrayList<>(paramValues.length);
@@ -24,4 +26,5 @@ class MethodInvocation {
     void setThreadName(String threadName) {
         this.threadName = threadName;
     }
+
 }

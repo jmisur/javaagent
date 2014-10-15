@@ -1,10 +1,12 @@
 class Parameter {
-
     private String name;
-    private ObjectInstance value;
+    private Object value;
 
     Parameter(String name, Object value) {
+        assert name != null;
+        assert value != null;
+
         this.name = name;
-        this.value = value != null ? new ObjectInstance(value) : null;
+        this.value = value;
     }
 }

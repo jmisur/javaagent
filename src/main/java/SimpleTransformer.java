@@ -41,15 +41,21 @@ class SimpleTransformer implements ClassFileTransformer {
                 || method.getName().equals("toString")
                 || method.getName().equals("hashCode")
                 || method.getName().equals("equals")
-                || method.getName().equals("$jacocoInit"));
+                || method.getName().equals("$jacocoInit")
+                || method instanceof CtConstructor);
     }
 
     private void changeMethod(CtBehavior method) throws NotFoundException, CannotCompileException {
-        method.insertBefore(p(method));
+        method.insertBefore(before(method));
+        method.insertAfter(after(method));
     }
 
-    private String p(CtBehavior method) {
-        return "{SimpleMain.capture(\"" + method.getLongName() + "\", " + names(method) + ", $args);}";
+    private String before(CtBehavior method) {
+        return "{SimpleMain.before(\"" + method.getLongName() + "\", " + names(method) + ", $args);}";
+    }
+
+    private String after(CtBehavior method) {
+        return "{SimpleMain.after(\"" + method.getLongName() + "\", " + names(method) + ", $args, $_);}";
     }
 
     private String names(CtBehavior method) {
@@ -59,7 +65,8 @@ class SimpleTransformer implements ClassFileTransformer {
         if (table != null && table.tableLength() > 1) {
             str.append("new String[] {");
 
-            for (int i = 1; i < table.tableLength(); i++) { // 0 index is 'this'
+            int start = Modifier.isStatic(method.getModifiers()) ? 0 : 1;
+            for (int i = start; i < start + paramCount(method); i++) { // 0 index is 'this'
                 str.append("\"" + table.variableName(i) + "\", ");
             }
 
@@ -71,6 +78,14 @@ class SimpleTransformer implements ClassFileTransformer {
         }
 
         return str.toString();
+    }
+
+    private int paramCount(CtBehavior method) {
+        try {
+            return method.getParameterTypes().length;
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private LocalVariableAttribute getParamsTable(CtBehavior method) {

@@ -3,9 +3,11 @@ class ObjectInstance {
     private String className;
     private Object value;
 
-    ObjectInstance(Object value) {
-        systemId = System.identityHashCode(value);
-        className = value.getClass().getName();
-        this.value = value;
+    ObjectInstance(Object object) {
+        assert object != null;
+
+        systemId = System.identityHashCode(object);
+        className = object.getClass().getCanonicalName();
+        this.value = object;
     }
 }

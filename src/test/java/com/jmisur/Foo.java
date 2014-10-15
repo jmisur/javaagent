@@ -3,35 +3,27 @@ package com.jmisur;
 public class Foo {
 
     public static void main(String args[]) {
-        Foo f = new Foo();
-        f.doIt(0, 1, new Data());
+        Foo foo = new Foo();
+        foo.setOuter(3, "lala", new Data());
     }
 
     public static class Data {
-        int i = 0;
-        Data2 d2 = new Data2();
-
-        @Override
-        public String toString() {
-            return "i is " + i;
-        }
+        Integer i;
+        String msg;
+        Data innerData;
     }
 
-    public static class Data2 {
-        long k = 99;
+    void setOuter(int i, String msg, Data data) {
+        data.i = i;
+        data.msg = msg;
+        data.innerData = clone(data);
     }
 
-    void doIt(int i, Integer k, Data x) {
-        x.i++;
-        doIt2(x);
+    Data clone(Data data) {
+        Data clone = new Data();
+        clone.i = -data.i;
+        clone.msg = data.msg.toUpperCase();
+        return clone;
     }
 
-    void doIt2(Data x) {
-        int k = x.i;
-    }
-
-    @Override
-    public String toString() {
-        return "ima foo";
-    }
 }
