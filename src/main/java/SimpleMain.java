@@ -8,12 +8,14 @@ import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.instrument.Instrumentation;
 
 public class SimpleMain {
     private static ObjectMapper mapper = new ObjectMapper();
-    private static FileWriter fileWriter;
-    private static ObjectWriter writer;
+    private static Writer writer;
+    private static ObjectWriter objectWriter;
     private static boolean written = false;
 
     public static void premain(String agentArguments, Instrumentation instrumentation) throws IOException {
@@ -27,21 +29,16 @@ public class SimpleMain {
             public JsonSerializer<?> modifySerializer(SerializationConfig config, BeanDescription beanDesc, JsonSerializer<?> serializer) {
                 if (serializer instanceof BeanSerializerBase)
                     return new ObjectSerializer((BeanSerializerBase) serializer);
-//                if (serializer instanceof StdScalarSerializer)
-//                    return new ScalarSerializer((StdScalarSerializer) serializer);
                 return serializer;
             }
         });
         mapper.registerModule(module);
-
-        writer = mapper.writer().withDefaultPrettyPrinter();
-        fileWriter = new FileWriter("capture.json");
+        objectWriter = mapper.writer().withDefaultPrettyPrinter();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 try {
-                    fileWriter.append("]");
-                    fileWriter.close();
+                    SimpleMain.stop();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -49,7 +46,6 @@ public class SimpleMain {
         });
 
         instrumentation.addTransformer(new SimpleTransformer());
-        fileWriter.append("[");
     }
 
     public static void before(String methodName, String[] paramNames, Object[] paramValues) {
@@ -72,14 +68,35 @@ public class SimpleMain {
     }
 
     private static void log(Object o) {
+        if (writer == null) return;
+
         try {
             if (written) {
-                fileWriter.append(",");
+                writer.append(",");
             }
             written = true;
-            writer.writeValue(fileWriter, o);
+            objectWriter.writeValue(writer, o);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static void start() throws IOException {
+        if (writer == null)
+            writer = new FileWriter("capture.json");
+
+        writer.append("[");
+    }
+
+    static void stop() throws IOException {
+        if (writer == null) return;
+
+        writer.append("]");
+        writer.close();
+        writer = null;
+    }
+
+    static void init(StringWriter writer) {
+        SimpleMain.writer = writer;
     }
 }
