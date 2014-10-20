@@ -14,6 +14,7 @@ public class SimpleMain {
     private static ObjectMapper mapper = new ObjectMapper();
     private static FileWriter fileWriter;
     private static ObjectWriter writer;
+    private static boolean written = false;
 
     public static void premain(String agentArguments, Instrumentation instrumentation) throws IOException {
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
@@ -39,6 +40,7 @@ public class SimpleMain {
             @Override
             public void run() {
                 try {
+                    fileWriter.append("]");
                     fileWriter.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -47,6 +49,7 @@ public class SimpleMain {
         });
 
         instrumentation.addTransformer(new SimpleTransformer());
+        fileWriter.append("[");
     }
 
     public static void before(String methodName, String[] paramNames, Object[] paramValues) {
@@ -70,8 +73,11 @@ public class SimpleMain {
 
     private static void log(Object o) {
         try {
+            if (written) {
+                fileWriter.append(",");
+            }
+            written = true;
             writer.writeValue(fileWriter, o);
-            fileWriter.append(",\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
