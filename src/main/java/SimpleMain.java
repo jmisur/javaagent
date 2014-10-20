@@ -26,6 +26,8 @@ public class SimpleMain {
             public JsonSerializer<?> modifySerializer(SerializationConfig config, BeanDescription beanDesc, JsonSerializer<?> serializer) {
                 if (serializer instanceof BeanSerializerBase)
                     return new ObjectSerializer((BeanSerializerBase) serializer);
+//                if (serializer instanceof StdScalarSerializer)
+//                    return new ScalarSerializer((StdScalarSerializer) serializer);
                 return serializer;
             }
         });
