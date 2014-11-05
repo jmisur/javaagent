@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Component</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="http://fb.me/react-0.12.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    var trace = [{
+        "type": "methodInvocation",
+        "phase": "before",
+        "millis": 1413839099185,
+        "threadName": "main",
+        "signature": "com.jmisur.Foo.main(java.lang.String[])",
+        "params": [{
+            "systemId": 1629604310,
+            "className": "java.lang.String[]",
+            "name": "args",
+            "value": []
+        }]
+    },
+        {
+            "type": "methodInvocation",
+            "phase": "before",
+            "millis": 1413839099282,
+            "threadName": "main",
+            "signature": "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
+            "params": [{
+                "systemId": 1629911510,
+                "className": "java.lang.Integer",
+                "name": "i",
+                "value": 3
+            }, {
+                "systemId": 1780132728,
+                "className": "java.lang.String",
+                "name": "msg",
+                "value": "lala"
+            }, {
+                "systemId": 1970881185,
+                "className": "com.jmisur.Foo.Data",
+                "name": "data",
+                "fields": [{
+                    "name": "i",
+                    "value": null
+                }, {
+                    "name": "msg",
+                    "value": null
+                }, {
+                    "name": "innerData",
+                    "value": null
+                }]
+            }]
+        }, {
+            "type": "methodInvocation",
+            "phase": "before",
+            "millis": 1413839099286,
+            "threadName": "main",
+            "signature": "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
+            "params": [{
+                "systemId": 1970881185,
+                "className": "com.jmisur.Foo.Data",
+                "name": "data",
+                "fields": [{
+                    "systemId": 767010715,
+                    "className": "java.lang.Integer",
+                    "name": "i",
+                    "value": 3
+                }, {
+                    "systemId": 1780132728,
+                    "className": "java.lang.String",
+                    "name": "msg",
+                    "value": "lala"
+                }, {
+                    "name": "innerData",
+                    "value": null
+                }]
+            }]
+        }, {
+            "type": "methodInvocation",
+            "phase": "after",
+            "millis": 1413839099287,
+            "threadName": "main",
+            "signature": "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
+            "params": [{
+                "systemId": 1970881185,
+                "className": "com.jmisur.Foo.Data",
+                "name": "data",
+                "fields": [{
+                    "systemId": 767010715,
+                    "className": "java.lang.Integer",
+                    "name": "i",
+                    "value": 3
+                }, {
+                    "systemId": 1780132728,
+                    "className": "java.lang.String",
+                    "name": "msg",
+                    "value": "lala"
+                }, {
+                    "name": "innerData",
+                    "value": null
+                }]
+            }],
+            "result": {
+                "systemId": 192794887,
+                "className": "com.jmisur.Foo.Data",
+                "fields": [{
+                    "systemId": 1122805102,
+                    "className": "java.lang.Integer",
+                    "name": "i",
+                    "value": -3
+                }, {
+                    "systemId": 1391942103,
+                    "className": "java.lang.String",
+                    "name": "msg",
+                    "value": "LALA"
+                }, {
+                    "name": "innerData",
+                    "value": null
+                }]
+            }
+        }, {
+            "type": "methodInvocation",
+            "phase": "after",
+            "millis": 1413839099288,
+            "threadName": "main",
+            "signature": "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
+            "params": [{
+                "systemId": 2092769598,
+                "className": "java.lang.Integer",
+                "name": "i",
+                "value": 3
+            }, {
+                "systemId": 1780132728,
+                "className": "java.lang.String",
+                "name": "msg",
+                "value": "lala"
+            }, {
+                "systemId": 1970881185,
+                "className": "com.jmisur.Foo.Data",
+                "name": "data",
+                "fields": [{
+                    "systemId": 767010715,
+                    "className": "java.lang.Integer",
+                    "name": "i",
+                    "value": 3
+                }, {
+                    "systemId": 1780132728,
+                    "className": "java.lang.String",
+                    "name": "msg",
+                    "value": "lala"
+                }, {
+                    "systemId": 192794887,
+                    "className": "com.jmisur.Foo.Data",
+                    "name": "innerData",
+                    "value": {
+                        "systemId": 192794887,
+                        "className": "com.jmisur.Foo.Data",
+                        "fields": [{
+                            "systemId": 1122805102,
+                            "className": "java.lang.Integer",
+                            "name": "i",
+                            "value": -3
+                        }, {
+                            "systemId": 1391942103,
+                            "className": "java.lang.String",
+                            "name": "msg",
+                            "value": "LALAX"
+                        }, {
+                            "name": "innerData",
+                            "value": null
+                        }]
+                    }
+                }]
+            }],
+            "result": null
+        }, {
+            "type": "methodInvocation",
+            "phase": "after",
+            "millis": 1413839099289,
+            "threadName": "main",
+            "signature": "com.jmisur.Foo.main(java.lang.String[])",
+            "params": [{
+                "systemId": 1629604310,
+                "className": "java.lang.String[]",
+                "name": "args",
+                "value": []
+            }],
+            "result": null
+        }];
+
+</script>
+
+<script type="text/jsx">
+    var Table = React.createClass({
+        render: function () {
+            return (
+                    <div>
+                    {this.props.data.map(function (item) {
+                        return (
+                                <div key={item.millis} className="class">
+                                    {item.signature}
+                                </div>
+                        )
+                    })}
+                    </div>
+                )
+        }
+    });
+
+    var APP = React.createClass({
+        render: function () {
+            return (
+                    <Table data={this.props.data} />
+            )
+        }
+    });
+
+    React.render(<APP data={trace} />, document.body);
+</script>
+</body>
+</html>

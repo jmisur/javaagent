@@ -1,0 +1,6 @@
+.class {
+    border: 2px solid grey;
+    border-radius: 5px;
+    max-width: 300px;
+    margin: 5px;
+}
