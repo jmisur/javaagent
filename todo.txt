@@ -1,0 +1,38 @@
+modes:
+	compile-time
+		type hierarchy
+		maven modules
+	runtime
+		method invocations (call hierarchy)
+		wrappers (spring tx)
+		architecture of deployed artefacts (?)
+		3rd party systems
+		
+use-cases:
+	invocation graph from browser to db
+		with parameters + result data
+
+frameworks:
+	spring 
+		beans
+		tx boundary
+		aspects
+	spring mvc
+		endpoint paths
+		method
+		query params
+		post params
+		json object
+		validations
+	jax-rs API
+
+features:
+	spring profile filter
+	bookmarkability
+		display state
+		
+
+corellation id
+	set in endpoint (spring dispatcher servlet)
+	create if not exists
+	set to any invoked thread (how?)
