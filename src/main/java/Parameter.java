@@ -5,7 +5,7 @@ class Parameter {
     @JsonIgnore
     private String name;
     @JsonUnwrapped
-    private Object value;
+    private Object value; // what if null?
 
     Parameter(String name, Object value) {
         assert name != null;

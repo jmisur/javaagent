@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 abstract class MethodInvocation {
+    private String correlationId = CorrelationIdHolder.get();
     private String type = "methodInvocation";
     private String phase = getPhase();
     private long millis = System.currentTimeMillis();

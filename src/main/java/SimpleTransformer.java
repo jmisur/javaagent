@@ -22,6 +22,9 @@ class SimpleTransformer implements ClassFileTransformer {
                 if (shouldChange(methods[i])) {
                     changeMethod(methods[i]);
                 }
+                if (shouldSetCorrelationId(methods[i])) {
+                    setCorrelationId(methods[i]);
+                }
             }
             b = cl.toBytecode();
         } catch (Exception e) {
@@ -32,6 +35,35 @@ class SimpleTransformer implements ClassFileTransformer {
             }
         }
         return b;
+    }
+
+    private void setCorrelationId(CtBehavior method) throws CannotCompileException {
+        if (method.getName().equals("execute"))
+            method.insertBefore("{$1 = new CorrelationRunnable(CorrelationIdHolder.get(), $1);}");
+        //if (method.getName().equals("main"))
+          //  method.insertBefore("{CorrelationIdHolder.generateAndSet();}");
+    }
+
+    private boolean shouldSetCorrelationId(CtBehavior method) {
+        try {
+            if (method.isEmpty()) return false;
+            if (!method.getName().equals("execute") && !method.getName().equals("main")) return false;
+            if (method.getParameterTypes().length != 1) return false;
+            if (!method.getParameterTypes()[0].getName().equals("java.lang.Runnable") &&
+                    !method.getParameterTypes()[0].getName().equals("java.lang.String[]")) return false;
+
+            if (method.getSignature().equals("([Ljava/lang/String;)V")) return true;
+
+//            for (CtClass iface: method.getDeclaringClass().getInterfaces()) { // recursive
+//                if (iface.getName().equals("java.util.concurrent.Executor")) {
+//                    return true;
+//                }
+//            }
+            return true;
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private boolean shouldChange(CtBehavior method) {
