@@ -17,6 +17,12 @@ public class AsyncTest {
                 Foo.main(new String[0]);
             }
         });
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                Foo.main(new String[0]);
+            }
+        });
         Foo.main(new String[0]);
         executorService.awaitTermination(10, TimeUnit.SECONDS);
         SimpleMain.stop();

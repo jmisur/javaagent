@@ -33,6 +33,6 @@ features:
 		
 
 corellation id
-	set in endpoint (spring dispatcher servlet)
-	create if not exists
-	set to any invoked thread (how?)
+	set in endpoint (DispatcherServlet#doDispatch or filter)
+	create if not exists (anywhere)
+	set to any invoked thread (Executor, new Thread?, etc)
