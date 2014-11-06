@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.instrument.Instrumentation;
 
@@ -88,15 +87,26 @@ public class SimpleMain {
         writer.append("[");
     }
 
+    static void start(Writer writer) throws IOException {
+        SimpleMain.writer = writer;
+        start();
+    }
+
     static void stop() throws IOException {
         if (writer == null) return;
 
         writer.append("]");
         writer.close();
         writer = null;
+        written = false;
     }
 
-    static void init(StringWriter writer) {
-        SimpleMain.writer = writer;
+    public static void newTx(String joinpointIdentification, boolean isNew, int propagation) {
+        TransactionBoundary tx = new TransactionBoundary();
+        tx.setThreadName(Thread.currentThread().getName());
+        tx.setJoinpointIdentification(joinpointIdentification);
+        tx.setNew(isNew);
+        tx.setPropagation(propagation);
+        log(tx);
     }
 }

@@ -1,0 +1,25 @@
+[{
+  "correlationId" : "56aa230c-045d-42c8-a3b7-ab0232d63ae7",
+  "type" : "transactionBoundary",
+  "propagation" : 0,
+  "millis" : 1415306626468,
+  "threadName" : "main",
+  "joinpointIdentification" : "SpringTxTest$TxService.doInTx",
+  "isNew" : true
+},{
+  "correlationId" : "56aa230c-045d-42c8-a3b7-ab0232d63ae7",
+  "type" : "transactionBoundary",
+  "propagation" : 0,
+  "millis" : 1415306626528,
+  "threadName" : "main",
+  "joinpointIdentification" : "SpringTxTest$TxServicePropReuired.doInTx",
+  "isNew" : false
+},{
+  "correlationId" : "56aa230c-045d-42c8-a3b7-ab0232d63ae7",
+  "type" : "transactionBoundary",
+  "propagation" : 3,
+  "millis" : 1415306626529,
+  "threadName" : "main",
+  "joinpointIdentification" : "SpringTxTest$TxServiceNewRequired.doInTx",
+  "isNew" : true
+}]

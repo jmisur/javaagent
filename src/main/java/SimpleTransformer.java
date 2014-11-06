@@ -25,6 +25,9 @@ class SimpleTransformer implements ClassFileTransformer {
                 if (shouldSetCorrelationId(methods[i])) {
                     setCorrelationId(methods[i]);
                 }
+                if (shouldMarkTx(methods[i])){
+                    markTx(methods[i]);
+                }
             }
             b = cl.toBytecode();
         } catch (Exception e) {
@@ -37,8 +40,23 @@ class SimpleTransformer implements ClassFileTransformer {
         return b;
     }
 
+    private void markTx(CtBehavior method) throws CannotCompileException {
+        method.insertAfter("{ SimpleMain.newTx($_.getJoinpointIdentification(), " +
+                "$_.getTransactionStatus().isNewTransaction(), " +
+                "$_.getTransactionAttribute().getPropagationBehavior()); }");
+    }
+
+    private boolean shouldMarkTx(CtBehavior method) {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("createTransactionIfNecessary")) return false;
+        if (!method.getSignature().equals("(Ljava/lang/reflect/Method;Ljava/lang/Class;)Lorg/springframework/transaction/interceptor/TransactionAspectSupport$TransactionInfo;"));
+        if (!method.getDeclaringClass().getName().equals("org.springframework.transaction.interceptor.TransactionAspectSupport")) return false;
+
+        return true;
+    }
+
     private void setCorrelationId(CtBehavior method) throws CannotCompileException {
-        if (method.getName().equals("execute"))
+        if (method.getName().equals("execute")) // TODO change this in Thread only
             method.insertBefore("{$1 = new CorrelationRunnable(CorrelationIdHolder.get(), $1);}");
         //if (method.getName().equals("main"))
           //  method.insertBefore("{CorrelationIdHolder.generateAndSet();}");

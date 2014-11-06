@@ -1,18 +1,19 @@
-modes:
+modes
 	compile-time
 		type hierarchy
 		maven modules
 	runtime
 		method invocations (call hierarchy)
 		wrappers (spring tx)
-		architecture of deployed artefacts (?)
+		architecture of deployed artifacts (?)
 		3rd party systems
+		jdbc
 		
-use-cases:
+use-cases
 	invocation graph from browser to db
 		with parameters + result data
 
-frameworks:
+frameworks
 	spring 
 		beans
 		tx boundary
@@ -24,15 +25,16 @@ frameworks:
 		post params
 		json object
 		validations
+	spring etc
 	jax-rs API
 
-features:
-	spring profile filter
-	bookmarkability
-		display state
-		
+features
+	spring profile filter (?)
+	bookmarkability (display state)
+	delete node
+	rearrange
 
 corellation id
 	set in endpoint (DispatcherServlet#doDispatch or filter)
 	create if not exists (anywhere)
-	set to any invoked thread (Executor, new Thread?, etc)
+	set to any invoked thread (Executor, new Thread?, etc) -> switch just to Thread()
