@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.instrument.Instrumentation;
+import java.lang.instrument.UnmodifiableClassException;
 
 public class SimpleMain {
     private static ObjectMapper mapper = new ObjectMapper();
@@ -17,7 +18,7 @@ public class SimpleMain {
     private static ObjectWriter objectWriter;
     private static boolean written = false;
 
-    public static void premain(String agentArguments, Instrumentation instrumentation) throws IOException {
+    public static void premain(String agentArguments, Instrumentation instrumentation) throws IOException, UnmodifiableClassException {
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
@@ -44,7 +45,18 @@ public class SimpleMain {
             }
         });
 
-        instrumentation.addTransformer(new SimpleTransformer());
+//        System.out.println("thread:");
+//        System.out.println(instrumentation.isModifiableClass(Thread.class));
+//        System.out.println("loaded:");
+//        for (Class clazz : instrumentation.getAllLoadedClasses()) {
+//            System.out.println(clazz);
+//        }
+//        System.out.println("initiated:");
+//        for (Class clazz : instrumentation.getInitiatedClasses(SimpleMain.class.getClassLoader())) {
+//            System.out.println(clazz);
+//        }
+        instrumentation.addTransformer(new SimpleTransformer(), true);
+        instrumentation.retransformClasses(Thread.class);
     }
 
     public static void before(String methodName, String[] paramNames, Object[] paramValues) {

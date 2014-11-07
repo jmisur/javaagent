@@ -25,7 +25,7 @@ class SimpleTransformer implements ClassFileTransformer {
                 if (shouldSetCorrelationId(methods[i])) {
                     setCorrelationId(methods[i]);
                 }
-                if (shouldMarkTx(methods[i])){
+                if (shouldMarkTx(methods[i])) {
                     markTx(methods[i]);
                 }
             }
@@ -49,39 +49,25 @@ class SimpleTransformer implements ClassFileTransformer {
     private boolean shouldMarkTx(CtBehavior method) {
         if (method.isEmpty()) return false;
         if (!method.getName().equals("createTransactionIfNecessary")) return false;
-        if (!method.getSignature().equals("(Ljava/lang/reflect/Method;Ljava/lang/Class;)Lorg/springframework/transaction/interceptor/TransactionAspectSupport$TransactionInfo;"));
-        if (!method.getDeclaringClass().getName().equals("org.springframework.transaction.interceptor.TransactionAspectSupport")) return false;
+        if (!method.getSignature().equals("(Ljava/lang/reflect/Method;Ljava/lang/Class;)L" +
+                "org/springframework/transaction/interceptor/TransactionAspectSupport$TransactionInfo;")) ;
+        if (!method.getDeclaringClass().getName().equals("org.springframework.transaction.interceptor.TransactionAspectSupport"))
+            return false;
 
         return true;
     }
 
-    private void setCorrelationId(CtBehavior method) throws CannotCompileException {
-        if (method.getName().equals("execute")) // TODO change this in Thread only
-            method.insertBefore("{$1 = new CorrelationRunnable(CorrelationIdHolder.get(), $1);}");
-        //if (method.getName().equals("main"))
-          //  method.insertBefore("{CorrelationIdHolder.generateAndSet();}");
+    private void setCorrelationId(CtBehavior method) throws CannotCompileException, NotFoundException {
+        method.insertBefore("{$2 = new CorrelationRunnable(CorrelationIdHolder.get(), $2);}");
     }
 
     private boolean shouldSetCorrelationId(CtBehavior method) {
-        try {
-            if (method.isEmpty()) return false;
-            if (!method.getName().equals("execute") && !method.getName().equals("main")) return false;
-            if (method.getParameterTypes().length != 1) return false;
-            if (!method.getParameterTypes()[0].getName().equals("java.lang.Runnable") &&
-                    !method.getParameterTypes()[0].getName().equals("java.lang.String[]")) return false;
+        if (!method.getDeclaringClass().getName().equals("java.lang.Thread")) return false;
+        if (!method.getName().equals("init")) return false;
+        if (!method.getSignature().equals("(Ljava/lang/ThreadGroup;Ljava/lang/Runnable;" +
+                "Ljava/lang/String;JLjava/security/AccessControlContext;)V")) return false;
 
-            if (method.getSignature().equals("([Ljava/lang/String;)V")) return true;
-
-//            for (CtClass iface: method.getDeclaringClass().getInterfaces()) { // recursive
-//                if (iface.getName().equals("java.util.concurrent.Executor")) {
-//                    return true;
-//                }
-//            }
-            return true;
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return true;
     }
 
     private boolean shouldChange(CtBehavior method) {

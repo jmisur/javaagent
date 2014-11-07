@@ -9,6 +9,8 @@ public class CorrelationRunnable implements Runnable {
 
     @Override
     public void run() {
+        if (runnable == null) return;
+
         try {
             CorrelationIdHolder.set(correlationId);
             try {
