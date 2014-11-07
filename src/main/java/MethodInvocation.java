@@ -13,7 +13,7 @@ abstract class MethodInvocation {
     protected abstract String getPhase();
 
     void setParams(String[] paramNames, Object[] paramValues) {
-        params = new ArrayList<>(paramValues.length);
+        params = new ArrayList<Parameter>(paramValues.length);
 
         for (int i = 0; i < paramValues.length; i++) {
             params.add(new Parameter(paramNames[i], paramValues[i]));

@@ -1,7 +1,7 @@
 import java.util.UUID;
 
 public class CorrelationIdHolder {
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<String> threadLocal = new ThreadLocal<String>();
     public static void remove() {
         threadLocal.remove();
     }
@@ -18,8 +18,4 @@ public class CorrelationIdHolder {
         }
         return value;
     }
-
-//    public static void generateAndSet() {
-//        set(UUID.randomUUID().toString());
-//    }
 }
