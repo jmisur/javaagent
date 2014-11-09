@@ -58,16 +58,31 @@ class SimpleTransformer implements ClassFileTransformer {
     }
 
     private void setCorrelationId(CtBehavior method) throws CannotCompileException, NotFoundException {
-        method.insertBefore("{$2 = new CorrelationRunnable(CorrelationIdHolder.get(), $2);}");
+        method.getDeclaringClass().addField(CtField.make("private final String correlationId = CorrelationIdHolder.get();", method.getDeclaringClass()));
+        method.insertBefore("{CorrelationIdHolder.set(correlationId);}");
     }
 
-    private boolean shouldSetCorrelationId(CtBehavior method) {
-        if (!method.getDeclaringClass().getName().equals("java.lang.Thread")) return false;
-        if (!method.getName().equals("init")) return false;
-        if (!method.getSignature().equals("(Ljava/lang/ThreadGroup;Ljava/lang/Runnable;" +
-                "Ljava/lang/String;JLjava/security/AccessControlContext;)V")) return false;
+    private boolean shouldSetCorrelationId(CtBehavior method) throws NotFoundException {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("run")) return false;
+        if (!method.getSignature().equals("()V")) return false;
+        if (!isRunnable(method.getDeclaringClass())) return false;
 
         return true;
+    }
+
+    private boolean isRunnable(CtClass declaringClass) throws NotFoundException {
+        if (declaringClass == null) return false;
+
+        for (CtClass ctClass : declaringClass.getInterfaces()) {
+            if (ctClass.getName().equals("java.lang.Runnable")) return true;
+        }
+
+        if (declaringClass.getSuperclass() != null) {
+            if (isRunnable(declaringClass.getSuperclass())) return true;
+        }
+
+        return false;
     }
 
     private boolean shouldChange(CtBehavior method) {

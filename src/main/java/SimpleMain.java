@@ -55,8 +55,7 @@ public class SimpleMain {
 //        for (Class clazz : instrumentation.getInitiatedClasses(SimpleMain.class.getClassLoader())) {
 //            System.out.println(clazz);
 //        }
-        instrumentation.addTransformer(new SimpleTransformer(), true);
-        instrumentation.retransformClasses(Thread.class);
+        instrumentation.addTransformer(new SimpleTransformer());
     }
 
     public static void before(String methodName, String[] paramNames, Object[] paramValues) {

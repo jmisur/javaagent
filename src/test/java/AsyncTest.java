@@ -9,14 +9,12 @@ import java.util.concurrent.TimeUnit;
 
 public class AsyncTest {
 
-//    @Rule
-//    public CaptureRule capture = new CaptureRule();
+    @Rule
+    public CaptureRule capture = new CaptureRule();
 
-    // TODO make it not depend on execution order (then sort by threadName before comparison)
     @Test
-    @CaptureRule.CompareTo("asyncTest.json")
+    @CaptureRule.CompareTo("async-testExecutor.json")
     public void testExecutor() throws IOException, InterruptedException {
-//        SimpleMain.start();
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         Foo.main(new String[0]);
         executorService.execute(new Runnable() {
@@ -26,12 +24,11 @@ public class AsyncTest {
             }
         });
         executorService.awaitTermination(1, TimeUnit.SECONDS);
-//        SimpleMain.stop();
     }
 
     @Test
+    @CaptureRule.CompareTo("async-testRunnable.json")
     public void testRunnable() throws IOException, InterruptedException {
-        SimpleMain.start();
         Foo.main(new String[0]);
         Thread t = new Thread(new Runnable() {
             @Override
@@ -39,14 +36,14 @@ public class AsyncTest {
                 Foo.main(new String[0]);
             }
         });
+        t.setName("Thread-1");
         t.start();
         t.join();
-        SimpleMain.stop();
     }
 
     @Test
+    @CaptureRule.CompareTo("async-testThread.json")
     public void testThread() throws IOException, InterruptedException {
-        SimpleMain.start();
         Foo.main(new String[0]);
         Thread t = new Thread() {
             @Override
@@ -54,8 +51,8 @@ public class AsyncTest {
                 Foo.main(new String[0]);
             }
         };
+        t.setName("Thread-1");
         t.start();
         t.join();
-        SimpleMain.stop();
     }
 }

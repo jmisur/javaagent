@@ -8,6 +8,7 @@ modes
 		architecture of deployed artifacts (?)
 		3rd party systems
 		jdbc
+		exceptions?
 		
 use-cases
 	invocation graph from browser to db
@@ -38,3 +39,24 @@ corellation id
 	set in endpoint (DispatcherServlet#doDispatch or filter)
 	create if not exists (anywhere)
 	set to any invoked thread (Executor, new Thread?, etc) -> switch just to Thread()
+
+javascript - client
+
+web
+	show as flow diagram
+	able to delete node
+	undo/redo
+	node nehancements
+		T as transactional (hover over to see details [source code, tx properties)
+	source code of the method
+	search
+		class name
+		test (flow) name
+		other?
+	local history, bookmarks
+	trace field value throughout
+		click make is sticky
+		button to trace it - all matches become sticky
+			trace forward/backward/all
+	search on current graph
+	tx as background wrapper (color)
