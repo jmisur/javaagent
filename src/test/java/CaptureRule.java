@@ -11,6 +11,7 @@ import org.junit.runners.model.Statement;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,13 +22,22 @@ import java.util.regex.Pattern;
 
 public class CaptureRule implements MethodRule {
     private StringWriter writer;
+    private boolean debug;
+
+
+    public CaptureRule() {
+    }
+
+    public CaptureRule(boolean debug) {
+        this.debug = debug;
+    }
 
     @Override
     public Statement apply(final Statement base, final FrameworkMethod method, Object target) {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                before();
+                before(method);
                 try {
                     base.evaluate();
                 } finally {
@@ -37,13 +47,22 @@ public class CaptureRule implements MethodRule {
         };
     }
 
-    private void before() throws IOException {
-        writer = new StringWriter();
-        SimpleMain.start(writer);
+    private void before(FrameworkMethod method) throws IOException {
+        CompareTo annotation = method.getAnnotation(CompareTo.class);
+        if (annotation == null && !debug) throw new RuntimeException("@CompareTo not found");
+
+        if (debug)
+            SimpleMain.start(System.out);
+        else {
+            writer = new StringWriter();
+            SimpleMain.start(writer);
+        }
     }
 
     private void after(FrameworkMethod method) throws IOException {
         SimpleMain.stop();
+        if (debug) return;
+
         String original = original(method);
         List<String> originalList = sanitize(toLines(original));
         String revised = writer.toString();
@@ -81,9 +100,20 @@ public class CaptureRule implements MethodRule {
 
     private String original(FrameworkMethod method) throws IOException {
         CompareTo annotation = method.getAnnotation(CompareTo.class);
-        if (annotation == null) throw new RuntimeException("Annotation CompareTo not found");
+        String jsonFile = annotation.value();
+        try (InputStream is = this.getClass().getResourceAsStream(jsonFile)) {
+            return IOUtils.toString(is);
+        } catch (NullPointerException e) {
+            throw new RuntimeException("JSON file not found: " + jsonFile);
+        }
+    }
 
-        return IOUtils.toString(this.getClass().getResourceAsStream(annotation.value()));
+    public void disable() {
+        SimpleMain.pause();
+    }
+
+    public void enable() {
+        SimpleMain.resume();
     }
 
     @Retention(RetentionPolicy.RUNTIME)

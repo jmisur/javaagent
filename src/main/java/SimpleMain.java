@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
 
@@ -17,6 +15,7 @@ public class SimpleMain {
     private static Writer writer;
     private static ObjectWriter objectWriter;
     private static boolean written = false;
+    private static boolean paused;
 
     public static void premain(String agentArguments, Instrumentation instrumentation) throws IOException, UnmodifiableClassException {
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
@@ -45,8 +44,6 @@ public class SimpleMain {
             }
         });
 
-//        System.out.println("thread:");
-//        System.out.println(instrumentation.isModifiableClass(Thread.class));
 //        System.out.println("loaded:");
 //        for (Class clazz : instrumentation.getAllLoadedClasses()) {
 //            System.out.println(clazz);
@@ -55,6 +52,7 @@ public class SimpleMain {
 //        for (Class clazz : instrumentation.getInitiatedClasses(SimpleMain.class.getClassLoader())) {
 //            System.out.println(clazz);
 //        }
+
         instrumentation.addTransformer(new SimpleTransformer());
     }
 
@@ -77,8 +75,8 @@ public class SimpleMain {
         log(mi);
     }
 
-    private static void log(Object o) {
-        if (writer == null) return;
+    static void log(Object o) {
+        if (writer == null || paused) return;
 
         try {
             if (written) {
@@ -95,12 +93,17 @@ public class SimpleMain {
         if (writer == null)
             writer = new FileWriter("capture.json");
 
+        paused = false;
         writer.append("[");
     }
 
     static void start(Writer writer) throws IOException {
         SimpleMain.writer = writer;
         start();
+    }
+
+    static void start(PrintStream stream) throws IOException {
+        start(new PrintWriter(stream));
     }
 
     static void stop() throws IOException {
@@ -110,14 +113,22 @@ public class SimpleMain {
         writer.close();
         writer = null;
         written = false;
+        paused = false;
     }
 
     public static void newTx(String joinpointIdentification, boolean isNew, int propagation) {
         TransactionBoundary tx = new TransactionBoundary();
-        tx.setThreadName(Thread.currentThread().getName());
         tx.setJoinpointIdentification(joinpointIdentification);
         tx.setNew(isNew);
         tx.setPropagation(propagation);
         log(tx);
+    }
+
+    static void pause() {
+        paused = true;
+    }
+
+    static void resume() {
+        paused = false;
     }
 }
