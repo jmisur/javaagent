@@ -1,0 +1,10 @@
+[{
+  "correlationId" : "63f445ce-4db7-449b-a9df-c94a7488044d",
+  "type" : "sqlOperation",
+  "millis" : 1415746562476,
+  "threadName" : "main",
+  "opType" : "update",
+  "query" : "update Person set firstname = 'Thomas', age = 27 where id = 1",
+  "params" : [ ],
+  "affectedRows" : 1
+}]

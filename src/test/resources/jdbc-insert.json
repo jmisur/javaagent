@@ -1,0 +1,11 @@
+[{
+  "correlationId" : "7a738b70-7fcd-4c3e-95db-53fdce7d3b6f",
+  "type" : "sqlOperation",
+  "millis" : 1415745886977,
+  "threadName" : "main",
+  "opType" : "insert",
+  "query" : "insert into Person (firstname, lastname, age) values ('John', 'Doe', '25');",
+  "params" : [ ],
+  "affectedRows" : 1,
+  "generatedKeys" : [ 1 ]
+}]

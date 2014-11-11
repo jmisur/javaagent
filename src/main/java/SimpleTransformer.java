@@ -28,6 +28,9 @@ class SimpleTransformer implements ClassFileTransformer {
                 if (shouldMarkTx(methods[i])) {
                     markTx(methods[i]);
                 }
+                if (shouldWrap(methods[i])) {
+                    wrap(methods[i]);
+                }
             }
             b = cl.toBytecode();
         } catch (Exception e) {
@@ -38,6 +41,21 @@ class SimpleTransformer implements ClassFileTransformer {
             }
         }
         return b;
+    }
+
+    private void wrap(CtBehavior method) throws CannotCompileException {
+        method.insertAfter("{ $_ = StatementWrapper.wrap($_);  }");
+    }
+
+    private boolean shouldWrap(CtBehavior method) throws NotFoundException {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("createStatement")) return false;
+        if (!method.getSignature().equals("()Ljava/sql/Statement;")
+                && !method.getSignature().equals("(II)Ljava/sql/Statement;")
+                && !method.getSignature().equals("(III)Ljava/sql/Statement;")) return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "java.sql.Connection")) return false;
+
+        return true;
     }
 
     private void markTx(CtBehavior method) throws CannotCompileException {
@@ -66,20 +84,20 @@ class SimpleTransformer implements ClassFileTransformer {
         if (method.isEmpty()) return false;
         if (!method.getName().equals("run")) return false;
         if (!method.getSignature().equals("()V")) return false;
-        if (!isRunnable(method.getDeclaringClass())) return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "java.lang.Runnable")) return false;
 
         return true;
     }
 
-    private boolean isRunnable(CtClass declaringClass) throws NotFoundException {
+    private boolean isInstanceOf(CtClass declaringClass, String className) throws NotFoundException {
         if (declaringClass == null) return false;
 
         for (CtClass ctClass : declaringClass.getInterfaces()) {
-            if (ctClass.getName().equals("java.lang.Runnable")) return true;
+            if (ctClass.getName().equals(className)) return true;
         }
 
         if (declaringClass.getSuperclass() != null) {
-            if (isRunnable(declaringClass.getSuperclass())) return true;
+            if (isInstanceOf(declaringClass.getSuperclass(), className)) return true;
         }
 
         return false;
