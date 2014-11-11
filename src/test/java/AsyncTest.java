@@ -13,7 +13,7 @@ public class AsyncTest {
     public CaptureRule capture = new CaptureRule();
 
     @Test
-    @CaptureRule.CompareTo("async-testExecutor.json")
+    @CaptureRule.CompareTo("async-executor.json")
     public void testExecutor() throws IOException, InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         Foo.main(new String[0]);
@@ -27,7 +27,7 @@ public class AsyncTest {
     }
 
     @Test
-    @CaptureRule.CompareTo("async-testRunnable.json")
+    @CaptureRule.CompareTo("async-runnable.json")
     public void testRunnable() throws IOException, InterruptedException {
         Foo.main(new String[0]);
         Thread t = new Thread(new Runnable() {
@@ -42,7 +42,7 @@ public class AsyncTest {
     }
 
     @Test
-    @CaptureRule.CompareTo("async-testThread.json")
+    @CaptureRule.CompareTo("async-thread.json")
     public void testThread() throws IOException, InterruptedException {
         Foo.main(new String[0]);
         Thread t = new Thread() {
