@@ -60,7 +60,6 @@ public class SimpleMain {
         MethodInvocationStart mi = new MethodInvocationStart();
         mi.setParams(paramNames, paramValues);
         mi.setSignature(methodName);
-        mi.setThreadName(Thread.currentThread().getName());
 
         log(mi);
     }
@@ -69,7 +68,6 @@ public class SimpleMain {
         MethodInvocationEnd mi = new MethodInvocationEnd();
         mi.setParams(paramNames, paramValues);
         mi.setSignature(methodName);
-        mi.setThreadName(Thread.currentThread().getName());
         mi.setResult(result);
 
         log(mi);

@@ -1,16 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class MethodInvocation {
-    private String correlationId = CorrelationIdHolder.get();
-    private String type = "methodInvocation";
+abstract class MethodInvocation extends RecordObject {
     private String phase = getPhase();
-    private long millis = System.currentTimeMillis();
-    private String threadName;
     private String signature;
     private List<Parameter> params;
 
     protected abstract String getPhase();
+
+    @Override
+    protected String getType() {
+        return "methodInvocation";
+    }
 
     void setParams(String[] paramNames, Object[] paramValues) {
         params = new ArrayList<Parameter>(paramValues.length);
@@ -22,10 +23,6 @@ abstract class MethodInvocation {
 
     void setSignature(String signature) {
         this.signature = signature;
-    }
-
-    void setThreadName(String threadName) {
-        this.threadName = threadName;
     }
 
 }

@@ -1,14 +1,11 @@
-class TransactionBoundary {
-    private String correlationId = CorrelationIdHolder.get();
-    private String type = "transactionBoundary";
+class TransactionBoundary extends RecordObject {
     private int propagation;
-    private long millis = System.currentTimeMillis();
-    private String threadName;
     private String joinpointIdentification;
     private boolean isNew;
 
-    void setThreadName(String threadName) {
-        this.threadName = threadName;
+    @Override
+    protected String getType() {
+        return "transactionBoundary";
     }
 
     public void setJoinpointIdentification(String joinpointIdentification) {
