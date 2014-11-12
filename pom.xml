@@ -71,11 +71,6 @@
             <artifactId>guava</artifactId>
             <version>18.0</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>de.danielbechler</groupId>-->
-        <!--<artifactId>java-object-diff</artifactId>-->
-        <!--<version>0.90</version>-->
-        <!--</dependency>-->
     </dependencies>
 
     <properties>
@@ -85,55 +80,11 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/boot/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>copy-boot-classes</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/boot-classes</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>target/classes</directory>
-                                    <includes>
-                                        <include>CorrelationIdHolder.class</include>
-                                        <include>CorrelationRunnable.class</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12.4</version>
                 <configuration>
-                    <argLine>-ea -javaagent:myagent.jar -Xbootclasspath/a:target/boot-classes</argLine>
+                    <argLine>-ea -javaagent:myagent.jar</argLine>
                 </configuration>
             </plugin>
             <plugin>

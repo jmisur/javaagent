@@ -21,7 +21,7 @@ public class SpringTxTest {
     public CaptureRule capture = new CaptureRule();
 
     @Test
-    @CaptureRule.CompareTo("springTxTest.json")
+    @CaptureRule.CompareTo("spring-tx.json")
     public void testTx() throws IOException {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(TxService.class, Config.class, TxServicePropReuired.class, TxServiceNewRequired.class);

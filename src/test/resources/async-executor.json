@@ -1,9 +1,9 @@
 [{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1415541328467,
   "threadName" : "main",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.main(java.lang.String[])",
   "params" : [ {
     "systemId" : 1543974463,
@@ -14,9 +14,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1415541328561,
   "threadName" : "main",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1209669119,
@@ -46,9 +46,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1415541328566,
   "threadName" : "main",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1883840933,
@@ -72,9 +72,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1415541328567,
   "threadName" : "main",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1883840933,
@@ -116,9 +116,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1415541328568,
   "threadName" : "main",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1434041222,
@@ -172,9 +172,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1415541328569,
   "threadName" : "main",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.main(java.lang.String[])",
   "params" : [ {
     "systemId" : 1543974463,
@@ -186,9 +186,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1415541328572,
   "threadName" : "pool-1-thread-1",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.main(java.lang.String[])",
   "params" : [ {
     "systemId" : 954841926,
@@ -199,9 +199,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1415541328573,
   "threadName" : "pool-1-thread-1",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 909005355,
@@ -231,9 +231,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1415541328573,
   "threadName" : "pool-1-thread-1",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 840028214,
@@ -257,9 +257,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1415541328573,
   "threadName" : "pool-1-thread-1",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 840028214,
@@ -301,9 +301,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1415541328573,
   "threadName" : "pool-1-thread-1",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1177439044,
@@ -357,9 +357,9 @@
 },{
   "correlationId" : "74d485dd-c90c-4a45-830a-b3cb3cedcaa3",
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1415541328574,
   "threadName" : "pool-1-thread-1",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.main(java.lang.String[])",
   "params" : [ {
     "systemId" : 954841926,

@@ -1,8 +1,8 @@
 [{
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1413839099185,
   "threadName" : "main",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.main(java.lang.String[])",
   "params" : [ {
     "systemId" : 1629604310,
@@ -12,9 +12,9 @@
   } ]
 },{
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1413839099282,
   "threadName" : "main",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1629911510,
@@ -43,9 +43,9 @@
   } ]
 },{
   "type" : "methodInvocation",
-  "phase" : "before",
   "millis" : 1413839099286,
   "threadName" : "main",
+  "phase" : "before",
   "signature" : "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1970881185,
@@ -68,9 +68,9 @@
   } ]
 },{
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1413839099287,
   "threadName" : "main",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 1970881185,
@@ -111,9 +111,9 @@
   }
 },{
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1413839099288,
   "threadName" : "main",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
   "params" : [ {
     "systemId" : 2092769598,
@@ -166,9 +166,9 @@
   "result" : null
 },{
   "type" : "methodInvocation",
-  "phase" : "after",
   "millis" : 1413839099289,
   "threadName" : "main",
+  "phase" : "after",
   "signature" : "com.jmisur.Foo.main(java.lang.String[])",
   "params" : [ {
     "systemId" : 1629604310,

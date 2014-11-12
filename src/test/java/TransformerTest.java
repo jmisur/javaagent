@@ -9,7 +9,7 @@ public class TransformerTest {
     public CaptureRule capture = new CaptureRule();
 
     @Test
-    @CaptureRule.CompareTo("transformerTest.json")
+    @CaptureRule.CompareTo("transformer.json")
     public void testFoo() throws IOException {
         Foo.main(new String[0]);
     }

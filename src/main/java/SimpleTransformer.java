@@ -17,19 +17,23 @@ class SimpleTransformer implements ClassFileTransformer {
         CtClass cl = null;
         try {
             cl = pool.makeClass(new java.io.ByteArrayInputStream(b));
-            CtBehavior[] methods = cl.getDeclaredBehaviors();
-            for (int i = 0; i < methods.length; i++) {
-                if (shouldChange(methods[i])) {
-                    changeMethod(methods[i]);
-                }
-                if (shouldSetCorrelationId(methods[i])) {
-                    setCorrelationId(methods[i]);
-                }
-                if (shouldMarkTx(methods[i])) {
-                    markTx(methods[i]);
-                }
-                if (shouldWrap(methods[i])) {
-                    wrap(methods[i]);
+            if (cl.getPackageName() != null
+                    && !cl.getPackageName().startsWith("sun")
+                    && !cl.getPackageName().startsWith("java")) {
+                CtBehavior[] methods = cl.getDeclaredBehaviors();
+                for (int i = 0; i < methods.length; i++) {
+                    if (shouldChange(methods[i])) {
+                        changeMethod(methods[i]);
+                    }
+                    if (shouldSetCorrelationId(methods[i])) {
+                        setCorrelationId(methods[i]);
+                    }
+                    if (shouldMarkTx(methods[i])) {
+                        markTx(methods[i]);
+                    }
+                    if (shouldWrap(methods[i])) {
+                        wrap(methods[i]);
+                    }
                 }
             }
             b = cl.toBytecode();

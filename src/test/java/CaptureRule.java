@@ -63,20 +63,21 @@ public class CaptureRule implements MethodRule {
         SimpleMain.stop();
         if (debug) return;
 
-        String original = original(method);
+        String jsonFile = originalFileName(method);
+        String original = original(jsonFile);
         List<String> originalList = sanitize(toLines(original));
         String revised = writer.toString();
         List<String> revisedList = sanitize(toLines(revised));
 
         Patch patch = DiffUtils.diff(originalList, revisedList);
         List<String> strings = DiffUtils.generateUnifiedDiff(null, null, originalList, patch, 2);
-        check(strings);
+        check(jsonFile, strings);
     }
 
-    private void check(List<String> strings) {
+    private void check(String jsonFile, List<String> strings) {
         if (strings == null || strings.size() == 0) return;
         String result = FluentIterable.from(strings).skip(2).join(Joiner.on("\n"));
-        Assert.fail("Diff:\n" + result);
+        Assert.fail("Diff [" + jsonFile + "]:\n" + result);
     }
 
     private List<String> sanitize(List<String> strings) {
@@ -98,14 +99,17 @@ public class CaptureRule implements MethodRule {
         return IOUtils.readLines(new ByteArrayInputStream(json.getBytes("UTF-8")));
     }
 
-    private String original(FrameworkMethod method) throws IOException {
-        CompareTo annotation = method.getAnnotation(CompareTo.class);
-        String jsonFile = annotation.value();
+    private String original(String jsonFile) throws IOException {
         try (InputStream is = this.getClass().getResourceAsStream(jsonFile)) {
             return IOUtils.toString(is);
         } catch (NullPointerException e) {
             throw new RuntimeException("JSON file not found: " + jsonFile);
         }
+    }
+
+    private String originalFileName(FrameworkMethod method) {
+        CompareTo annotation = method.getAnnotation(CompareTo.class);
+        return annotation.value();
     }
 
     public void disable() {
