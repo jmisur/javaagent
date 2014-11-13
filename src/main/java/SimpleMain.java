@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.DefaultTransactionStatus;
 
 import java.io.*;
 import java.lang.instrument.Instrumentation;
@@ -118,13 +120,26 @@ public class SimpleMain {
         paused = false;
     }
 
-    public static void newTx(String joinpointIdentification, boolean isNew, int propagation) {
-        TransactionBoundary tx = new TransactionBoundary();
-        tx.setJoinpointIdentification(joinpointIdentification);
-        tx.setNew(isNew);
-        tx.setPropagation(propagation);
+    public static void newTx(Object object, TransactionDefinition definition) {
+        Transaction tx = new Transaction();
+        tx.setObjectId(System.identityHashCode(object));
+        tx.setPhase("begin");
+        tx.setName(definition.getName());
         log(tx);
     }
+    public static void commitTx(DefaultTransactionStatus status) {
+        Transaction tx = new Transaction();
+        tx.setObjectId(System.identityHashCode(status.getTransaction()));
+        tx.setPhase("commit");
+        log(tx);
+    }
+    public static void rollbackTx(DefaultTransactionStatus status) {
+        Transaction tx = new Transaction();
+        tx.setObjectId(System.identityHashCode(status.getTransaction()));
+        tx.setPhase("rollback");
+        log(tx);
+    }
+
 
     static void pause() {
         paused = true;

@@ -84,6 +84,7 @@ public class CaptureRule implements MethodRule {
         final Pattern correlationId = Pattern.compile("\\s*\"correlationId\"\\s*:.*");
         final Pattern systemId = Pattern.compile("\\s*\"systemId\"\\s*:.*");
         final Pattern sqlId = Pattern.compile("\\s*\"sqlId\"\\s*:.*");
+        final Pattern objectId = Pattern.compile("\\s*\"objectId\"\\s*:.*");
 
         // TODO assertions on these fields (long value / string length etc)
         return FluentIterable.from(strings).filter(new Predicate<String>() {
@@ -92,7 +93,8 @@ public class CaptureRule implements MethodRule {
                 return !(millis.matcher(s).matches()
                         || correlationId.matcher(s).matches()
                         || systemId.matcher(s).matches()
-                        || sqlId.matcher(s).matches());
+                        || sqlId.matcher(s).matches()
+                        || objectId.matcher(s).matches());
             }
         }).toList();
     }

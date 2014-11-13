@@ -26,8 +26,14 @@ class SimpleTransformer implements ClassFileTransformer {
                     if (shouldSetCorrelationId(methods[i])) {
                         setCorrelationId(methods[i]);
                     }
-                    if (shouldMarkTx(methods[i])) {
-                        markTx(methods[i]);
+                    if (shouldMarkNewTx(methods[i])) {
+                        newTx(methods[i]);
+                    }
+                    if (shouldMarkCommitTx(methods[i])) {
+                        commitTx(methods[i]);
+                    }
+                    if (shouldMarkRollbackTx(methods[i])) {
+                        rollbackTx(methods[i]);
                     }
                     if (shouldWrap(methods[i])) {
                         wrap(methods[i]);
@@ -66,18 +72,46 @@ class SimpleTransformer implements ClassFileTransformer {
         return true;
     }
 
-    private void markTx(CtBehavior method) throws CannotCompileException {
-        method.insertAfter("{ SimpleMain.newTx($_.getJoinpointIdentification(), " +
-                "$_.getTransactionStatus().isNewTransaction(), " +
-                "$_.getTransactionAttribute().getPropagationBehavior()); }");
+    private void newTx(CtBehavior method) throws CannotCompileException {
+        method.insertAfter("{ SimpleMain.newTx($1, $2); }");
     }
 
-    private boolean shouldMarkTx(CtBehavior method) {
+    private boolean shouldMarkNewTx(CtBehavior method) throws NotFoundException {
         if (method.isEmpty()) return false;
-        if (!method.getName().equals("createTransactionIfNecessary")) return false;
-        if (!method.getSignature().equals("(Ljava/lang/reflect/Method;Ljava/lang/Class;)L" +
-                "org/springframework/transaction/interceptor/TransactionAspectSupport$TransactionInfo;")) ;
-        if (!method.getDeclaringClass().getName().equals("org.springframework.transaction.interceptor.TransactionAspectSupport"))
+        if (!method.getName().equals("doBegin")) return false;
+        if (!method.getSignature().equals("(Ljava/lang/Object;Lorg/springframework/transaction/TransactionDefinition;)V"))
+            return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "org.springframework.transaction.support.AbstractPlatformTransactionManager"))
+            return false;
+
+        return true;
+    }
+
+    private void commitTx(CtBehavior method) throws CannotCompileException {
+        method.insertAfter("{ SimpleMain.commitTx($1); }");
+    }
+
+    private boolean shouldMarkCommitTx(CtBehavior method) throws NotFoundException {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("doCommit")) return false;
+        if (!method.getSignature().equals("(Lorg/springframework/transaction/support/DefaultTransactionStatus;)V"))
+            return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "org.springframework.transaction.support.AbstractPlatformTransactionManager"))
+            return false;
+
+        return true;
+    }
+
+    private void rollbackTx(CtBehavior method) throws CannotCompileException {
+        method.insertAfter("{ SimpleMain.rollbackTx($1); }");
+    }
+
+    private boolean shouldMarkRollbackTx(CtBehavior method) throws NotFoundException {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("doRollback")) return false;
+        if (!method.getSignature().equals("(Lorg/springframework/transaction/support/DefaultTransactionStatus;)V"))
+            return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "org.springframework.transaction.support.AbstractPlatformTransactionManager"))
             return false;
 
         return true;
@@ -99,6 +133,8 @@ class SimpleTransformer implements ClassFileTransformer {
 
     private boolean isInstanceOf(CtClass declaringClass, String className) throws NotFoundException {
         if (declaringClass == null) return false;
+
+        if (declaringClass.getName().equals(className)) return true;
 
         for (CtClass ctClass : declaringClass.getInterfaces()) {
             if (ctClass.getName().equals(className)) return true;

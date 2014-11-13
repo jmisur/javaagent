@@ -1,25 +1,33 @@
 [{
-  "correlationId" : "56aa230c-045d-42c8-a3b7-ab0232d63ae7",
-  "type" : "transactionBoundary",
-  "millis" : 1415306626468,
+  "correlationId" : "5yttKm5oaFcTVArtWAEDS3",
+  "type" : "transaction",
+  "millis" : 1415913636234,
   "threadName" : "main",
-  "propagation" : 0,
-  "joinpointIdentification" : "SpringTxTest$TxService.doInTx",
-  "isNew" : true
+  "objectId" : 1438988851,
+  "phase" : "begin",
+  "name" : "SpringTxTest$TxService.doInTx"
 },{
-  "correlationId" : "56aa230c-045d-42c8-a3b7-ab0232d63ae7",
-  "type" : "transactionBoundary",
-  "millis" : 1415306626528,
+  "correlationId" : "5yttKm5oaFcTVArtWAEDS3",
+  "type" : "transaction",
+  "millis" : 1415913636305,
   "threadName" : "main",
-  "propagation" : 0,
-  "joinpointIdentification" : "SpringTxTest$TxServicePropReuired.doInTx",
-  "isNew" : false
+  "objectId" : 970535245,
+  "phase" : "begin",
+  "name" : "SpringTxTest$TxServiceNewRequired.doInTx"
 },{
-  "correlationId" : "56aa230c-045d-42c8-a3b7-ab0232d63ae7",
-  "type" : "transactionBoundary",
-  "millis" : 1415306626529,
+  "correlationId" : "5yttKm5oaFcTVArtWAEDS3",
+  "type" : "transaction",
+  "millis" : 1415913636308,
   "threadName" : "main",
-  "propagation" : 3,
-  "joinpointIdentification" : "SpringTxTest$TxServiceNewRequired.doInTx",
-  "isNew" : true
+  "objectId" : 970535245,
+  "phase" : "rollback",
+  "name" : null
+},{
+  "correlationId" : "5yttKm5oaFcTVArtWAEDS3",
+  "type" : "transaction",
+  "millis" : 1415913636321,
+  "threadName" : "main",
+  "objectId" : 1438988851,
+  "phase" : "commit",
+  "name" : null
 }]
