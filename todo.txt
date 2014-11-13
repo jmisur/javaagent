@@ -1,3 +1,8 @@
+TODO
+dispatcher servlet
+spring security
+validation on millis/corellationId/etc
+
 modes
 	compile-time
 		type hierarchy
@@ -17,7 +22,7 @@ use-cases
 frameworks
 	spring 
 		beans
-		tx boundary
+		tx boundary (+commit/rollback)
 		aspects
 	spring mvc
 		endpoint paths

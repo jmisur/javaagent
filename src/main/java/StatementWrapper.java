@@ -1,7 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class StatementWrapper implements Statement {
     private final Statement target;
@@ -20,7 +19,7 @@ public class StatementWrapper implements Statement {
     }
 
     private String newId() {
-        return UUID.randomUUID().toString();
+        return Id.random();
     }
 
     private int log(String sql, int updated) throws SQLException {

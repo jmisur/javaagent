@@ -52,7 +52,7 @@ class SimpleTransformer implements ClassFileTransformer {
     }
 
     private void wrap(CtBehavior method) throws CannotCompileException {
-        method.insertAfter("{ $_ = StatementWrapper.wrap($_);  }");
+        method.insertAfter("{ $_ = StatementWrapper.wrap($_); }");
     }
 
     private boolean shouldWrap(CtBehavior method) throws NotFoundException {
