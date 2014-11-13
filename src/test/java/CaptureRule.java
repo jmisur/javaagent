@@ -67,7 +67,7 @@ public class CaptureRule implements MethodRule {
             String revised = writer.toString();
             List<String> revisedList = sanitize(toLines(revised));
 
-            Patch patch = DiffUtils.diff(originalList, revisedList);
+            Patch<String> patch = DiffUtils.diff(originalList, revisedList);
             List<String> strings = DiffUtils.generateUnifiedDiff(null, null, originalList, patch, 2);
             check(jsonFile, strings);
         }
