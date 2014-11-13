@@ -1,11 +1,45 @@
 [{
-  "correlationId" : "7a738b70-7fcd-4c3e-95db-53fdce7d3b6f",
+  "correlationId" : "XXX",
   "type" : "sqlOperation",
-  "millis" : 1415745886977,
+  "millis" : 10,
   "threadName" : "main",
+  "sqlId" : "YYY",
   "opType" : "insert",
-  "query" : "insert into Person (firstname, lastname, age) values ('John', 'Doe', '25');",
+  "query" : "insert into Person (firstname, lastname, age) values ('John', 'Doe', 25)",
   "params" : [ ],
   "affectedRows" : 1,
   "generatedKeys" : [ 1 ]
+},{
+  "correlationId" : "XXX",
+  "type" : "sqlOperation",
+  "millis" : 20,
+  "threadName" : "main",
+  "sqlId" : "YYY",
+  "opType" : "insert",
+  "query" : "insert into Person (firstname, lastname, age) values ('Billy', 'Idol', 20)",
+  "params" : [ ],
+  "affectedRows" : 1,
+  "generatedKeys" : [ 2 ]
+},{
+  "correlationId" : "XXX",
+  "type" : "sqlOperation",
+  "millis" : 30,
+  "threadName" : "main",
+  "sqlId" : "YYY",
+  "opType" : "insert",
+  "query" : "insert into Person (firstname, lastname, age) values ('Guy', 'Ritchie', 30)",
+  "params" : [ ],
+  "affectedRows" : 1,
+  "generatedKeys" : [ 3 ]
+},{
+  "correlationId" : "XXX",
+  "type" : "sqlOperation",
+  "millis" : 40,
+  "threadName" : "main",
+  "sqlId" : "YYY",
+  "opType" : "insert",
+  "query" : "insert into Person (firstname, lastname, age) values ('Madonna', 'Mia', 40)",
+  "params" : [ ],
+  "affectedRows" : 1,
+  "generatedKeys" : [ 4 ]
 }]

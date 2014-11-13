@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.io.*;
 import java.lang.instrument.Instrumentation;
@@ -15,7 +16,8 @@ public class SimpleMain {
     private static Writer writer;
     private static ObjectWriter objectWriter;
     private static boolean written = false;
-    private static boolean paused;
+    private static boolean paused = false;
+    private static boolean close = true;
 
     public static void premain(String agentArguments, Instrumentation instrumentation) throws IOException, UnmodifiableClassException {
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
@@ -92,6 +94,8 @@ public class SimpleMain {
             writer = new FileWriter("capture.json");
 
         paused = false;
+        close = true;
+        written = false;
         writer.append("[");
     }
 
@@ -100,17 +104,18 @@ public class SimpleMain {
         start();
     }
 
-    static void start(PrintStream stream) throws IOException {
+    static void start(PrintStream stream, boolean close) throws IOException {
         start(new PrintWriter(stream));
+        SimpleMain.close = close;
     }
 
     static void stop() throws IOException {
         if (writer == null) return;
 
         writer.append("]");
-        writer.close();
+        writer.flush();
+        if (close) writer.close();
         writer = null;
-        written = false;
         paused = false;
     }
 

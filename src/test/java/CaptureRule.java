@@ -48,11 +48,8 @@ public class CaptureRule implements MethodRule {
     }
 
     private void before(FrameworkMethod method) throws IOException {
-        CompareTo annotation = method.getAnnotation(CompareTo.class);
-        if (annotation == null && !debug) throw new RuntimeException("@CompareTo not found");
-
         if (debug)
-            SimpleMain.start(System.out);
+            SimpleMain.start(System.out, false);
         else {
             writer = new StringWriter();
             SimpleMain.start(writer);
@@ -64,14 +61,16 @@ public class CaptureRule implements MethodRule {
         if (debug) return;
 
         String jsonFile = originalFileName(method);
-        String original = original(jsonFile);
-        List<String> originalList = sanitize(toLines(original));
-        String revised = writer.toString();
-        List<String> revisedList = sanitize(toLines(revised));
+        if (jsonFile != null) {
+            String original = original(jsonFile);
+            List<String> originalList = sanitize(toLines(original));
+            String revised = writer.toString();
+            List<String> revisedList = sanitize(toLines(revised));
 
-        Patch patch = DiffUtils.diff(originalList, revisedList);
-        List<String> strings = DiffUtils.generateUnifiedDiff(null, null, originalList, patch, 2);
-        check(jsonFile, strings);
+            Patch patch = DiffUtils.diff(originalList, revisedList);
+            List<String> strings = DiffUtils.generateUnifiedDiff(null, null, originalList, patch, 2);
+            check(jsonFile, strings);
+        }
     }
 
     private void check(String jsonFile, List<String> strings) {
@@ -84,13 +83,16 @@ public class CaptureRule implements MethodRule {
         final Pattern millis = Pattern.compile("\\s*\"millis\"\\s*:.*");
         final Pattern correlationId = Pattern.compile("\\s*\"correlationId\"\\s*:.*");
         final Pattern systemId = Pattern.compile("\\s*\"systemId\"\\s*:.*");
+        final Pattern sqlId = Pattern.compile("\\s*\"sqlId\"\\s*:.*");
 
+        // TODO assertions on these fields (long value / string length etc)
         return FluentIterable.from(strings).filter(new Predicate<String>() {
             @Override
             public boolean apply(String s) {
                 return !(millis.matcher(s).matches()
                         || correlationId.matcher(s).matches()
-                        || systemId.matcher(s).matches());
+                        || systemId.matcher(s).matches()
+                        || sqlId.matcher(s).matches());
             }
         }).toList();
     }
@@ -109,7 +111,7 @@ public class CaptureRule implements MethodRule {
 
     private String originalFileName(FrameworkMethod method) {
         CompareTo annotation = method.getAnnotation(CompareTo.class);
-        return annotation.value();
+        return annotation == null ? null : annotation.value();
     }
 
     public void disable() {

@@ -1,10 +1,37 @@
 [{
-  "correlationId" : "63f445ce-4db7-449b-a9df-c94a7488044d",
+  "correlationId" : "cf1aee80-ed0c-4c21-a92a-90b90fa8b598",
   "type" : "sqlOperation",
-  "millis" : 1415746562476,
+  "millis" : 1415832704749,
   "threadName" : "main",
   "opType" : "update",
-  "query" : "update Person set firstname = 'Thomas', age = 27 where id = 1",
+  "query" : "update Person set firstname = 'James' where id = 1",
   "params" : [ ],
   "affectedRows" : 1
+},{
+  "correlationId" : "cf1aee80-ed0c-4c21-a92a-90b90fa8b598",
+  "type" : "sqlOperation",
+  "millis" : 1415832704827,
+  "threadName" : "main",
+  "opType" : "update",
+  "query" : "update Person set lastname = 'Bond' where firstname = 'James'",
+  "params" : [ ],
+  "affectedRows" : 1
+},{
+  "correlationId" : "cf1aee80-ed0c-4c21-a92a-90b90fa8b598",
+  "type" : "sqlOperation",
+  "millis" : 1415832704828,
+  "threadName" : "main",
+  "opType" : "update",
+  "query" : "update Person set age = 30 where lastname = 'Bond'",
+  "params" : [ ],
+  "affectedRows" : 1
+},{
+  "correlationId" : "cf1aee80-ed0c-4c21-a92a-90b90fa8b598",
+  "type" : "sqlOperation",
+  "millis" : 1415832704829,
+  "threadName" : "main",
+  "opType" : "update",
+  "query" : "update Person set id = 10 where id = 10",
+  "params" : [ ],
+  "affectedRows" : 0
 }]

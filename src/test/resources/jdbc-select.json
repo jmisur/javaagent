@@ -1,1 +1,98 @@
-[]
+[{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "sqlOperation",
+  "millis" : 1415838732852,
+  "threadName" : "main",
+  "sqlId" : "37983b13-efa0-4cac-8bb7-26057eff5900",
+  "opType" : "select",
+  "query" : "select * from Person",
+  "params" : [ ],
+  "affectedRows" : null,
+  "columns" : [ "id", "firstname", "lastname", "age" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "resultSet",
+  "millis" : 1415838732937,
+  "threadName" : "main",
+  "sqlId" : "37983b13-efa0-4cac-8bb7-26057eff5900",
+  "values" : [ 1, "John", "Doe", 25 ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "resultSet",
+  "millis" : 1415838732943,
+  "threadName" : "main",
+  "sqlId" : "37983b13-efa0-4cac-8bb7-26057eff5900",
+  "values" : [ 2, "Lenny", "Kravitz", 25 ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "sqlOperation",
+  "millis" : 1415838732946,
+  "threadName" : "main",
+  "sqlId" : "6df80ad7-6b60-47c5-bdcd-ccdf88ecc810",
+  "opType" : "select",
+  "query" : "select * from Person where id = 1",
+  "params" : [ ],
+  "affectedRows" : null,
+  "columns" : [ "id", "firstname", "lastname", "age" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "resultSet",
+  "millis" : 1415838732947,
+  "threadName" : "main",
+  "sqlId" : "6df80ad7-6b60-47c5-bdcd-ccdf88ecc810",
+  "values" : [ 1, "John", "Doe", 25 ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "sqlOperation",
+  "millis" : 1415838732951,
+  "threadName" : "main",
+  "sqlId" : "82604a67-7bab-4ea2-b1a5-7ac621d6a3be",
+  "opType" : "select",
+  "query" : "select firstname from Person where lastname in ('Doe', 'Kravitz')",
+  "params" : [ ],
+  "affectedRows" : null,
+  "columns" : [ "firstname" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "resultSet",
+  "millis" : 1415838732951,
+  "threadName" : "main",
+  "sqlId" : "82604a67-7bab-4ea2-b1a5-7ac621d6a3be",
+  "values" : [ "John" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "resultSet",
+  "millis" : 1415838732952,
+  "threadName" : "main",
+  "sqlId" : "82604a67-7bab-4ea2-b1a5-7ac621d6a3be",
+  "values" : [ "Lenny" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "sqlOperation",
+  "millis" : 1415838732953,
+  "threadName" : "main",
+  "sqlId" : "b4e85b1a-75d9-4c3f-9f5b-86a45def0e0c",
+  "opType" : "select",
+  "query" : "select age from Person where age > 30",
+  "params" : [ ],
+  "affectedRows" : null,
+  "columns" : [ "age" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "sqlOperation",
+  "millis" : 1415838732954,
+  "threadName" : "main",
+  "sqlId" : "0464fac6-7774-42b0-bea2-6cbecac13e89",
+  "opType" : "select",
+  "query" : "select p.id from Person p where p.id = 2",
+  "params" : [ ],
+  "affectedRows" : null,
+  "columns" : [ "id" ]
+},{
+  "correlationId" : "f690461f-94ba-481d-989d-785c6dfc687b",
+  "type" : "resultSet",
+  "millis" : 1415838732954,
+  "threadName" : "main",
+  "sqlId" : "0464fac6-7774-42b0-bea2-6cbecac13e89",
+  "values" : [ 2 ]
+}]

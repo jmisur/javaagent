@@ -2,8 +2,8 @@ public class SqlInsert extends SqlOperation {
 
     private Object[] generatedKeys;
 
-    public SqlInsert(String sql, int updated, Object[] generatedKeys) {
-        setQuery(sql);
+    public SqlInsert(String sqlId, String sql, Integer updated, Object[] generatedKeys) {
+        super(sqlId, sql);
         setAffectedRows(updated);
         this.generatedKeys = generatedKeys;
     }

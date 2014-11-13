@@ -1,10 +1,16 @@
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 public abstract class SqlOperation extends RecordObject {
+    private String sqlId;
     private String opType = getOpType();
     private String query;
     private Object[] params = new Object[0];
-    private int affectedRows = 0;
+    private Integer affectedRows;
+
+    public SqlOperation(String sqlId, String sql) {
+        this.sqlId = sqlId;
+        query = sql;
+    }
 
     @Override
     @JsonInclude
@@ -14,15 +20,11 @@ public abstract class SqlOperation extends RecordObject {
 
     protected abstract String getOpType();
 
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
     public void setParams(Object[] params) {
         this.params = params;
     }
 
-    public void setAffectedRows(int affectedRows) {
+    public void setAffectedRows(Integer affectedRows) {
         this.affectedRows = affectedRows;
     }
 }

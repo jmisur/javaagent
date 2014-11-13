@@ -17,9 +17,7 @@ class SimpleTransformer implements ClassFileTransformer {
         CtClass cl = null;
         try {
             cl = pool.makeClass(new java.io.ByteArrayInputStream(b));
-            if (cl.getPackageName() != null
-                    && !cl.getPackageName().startsWith("sun")
-                    && !cl.getPackageName().startsWith("java")) {
+            if (shouldTransform(cl)) {
                 CtBehavior[] methods = cl.getDeclaredBehaviors();
                 for (int i = 0; i < methods.length; i++) {
                     if (shouldChange(methods[i])) {
@@ -45,6 +43,12 @@ class SimpleTransformer implements ClassFileTransformer {
             }
         }
         return b;
+    }
+
+    private boolean shouldTransform(CtClass cl) {
+        return cl.getPackageName() != null
+                && !cl.getPackageName().startsWith("sun")
+                && !cl.getPackageName().startsWith("java");
     }
 
     private void wrap(CtBehavior method) throws CannotCompileException {

@@ -1,7 +1,7 @@
 public class SqlUpdate extends SqlOperation {
 
-    public SqlUpdate(String sql, int updated) {
-        setQuery(sql);
+    public SqlUpdate(String sqlId, String sql, Integer updated) {
+        super(sqlId, sql);
         setAffectedRows(updated);
     }
 

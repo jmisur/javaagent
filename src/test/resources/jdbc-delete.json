@@ -1,0 +1,41 @@
+[{
+  "correlationId" : "f3d03cdb-cc06-4202-b980-c84f474a1320",
+  "type" : "sqlOperation",
+  "millis" : 1415838460418,
+  "threadName" : "main",
+  "sqlId" : "c167493b-7e4a-47a4-9f4e-330cdc8c5b11",
+  "opType" : "delete",
+  "query" : "delete from Person where id = 1",
+  "params" : [ ],
+  "affectedRows" : 1
+},{
+  "correlationId" : "f3d03cdb-cc06-4202-b980-c84f474a1320",
+  "type" : "sqlOperation",
+  "millis" : 1415838460494,
+  "threadName" : "main",
+  "sqlId" : "3a00a79d-1e88-4466-b5a8-a90e4afd02df",
+  "opType" : "delete",
+  "query" : "delete from Person where lastname = 'McLane'",
+  "params" : [ ],
+  "affectedRows" : 1
+},{
+  "correlationId" : "f3d03cdb-cc06-4202-b980-c84f474a1320",
+  "type" : "sqlOperation",
+  "millis" : 1415838460495,
+  "threadName" : "main",
+  "sqlId" : "3e4cf16f-a5cd-4ea2-b889-fff1b9bbe150",
+  "opType" : "delete",
+  "query" : "delete from Person where firstname = 'Big'",
+  "params" : [ ],
+  "affectedRows" : 1
+},{
+  "correlationId" : "f3d03cdb-cc06-4202-b980-c84f474a1320",
+  "type" : "sqlOperation",
+  "millis" : 1415838460496,
+  "threadName" : "main",
+  "sqlId" : "6fd6ef60-1e80-4c8c-8ada-cf4f3ef91b6b",
+  "opType" : "delete",
+  "query" : "delete from Person",
+  "params" : [ ],
+  "affectedRows" : 0
+}]
