@@ -18,7 +18,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.junit.Assert.assertEquals;
 
 public class CaptureRule implements MethodRule {
     private StringWriter writer;
@@ -63,9 +66,9 @@ public class CaptureRule implements MethodRule {
         String jsonFile = originalFileName(method);
         if (jsonFile != null) {
             String original = original(jsonFile);
-            List<String> originalList = sanitize(toLines(original));
+            List<String> originalList = sanitize(toLines(original), false);
             String revised = writer.toString();
-            List<String> revisedList = sanitize(toLines(revised));
+            List<String> revisedList = sanitize(toLines(revised), true);
 
             Patch<String> patch = DiffUtils.diff(originalList, revisedList);
             List<String> strings = DiffUtils.generateUnifiedDiff(null, null, originalList, patch, 2);
@@ -79,22 +82,43 @@ public class CaptureRule implements MethodRule {
         Assert.fail("Diff [" + jsonFile + "]:\n" + result);
     }
 
-    private List<String> sanitize(List<String> strings) {
-        final Pattern millis = Pattern.compile("\\s*\"millis\"\\s*:.*");
-        final Pattern correlationId = Pattern.compile("\\s*\"correlationId\"\\s*:.*");
-        final Pattern systemId = Pattern.compile("\\s*\"systemId\"\\s*:.*");
-        final Pattern sqlId = Pattern.compile("\\s*\"sqlId\"\\s*:.*");
-        final Pattern objectId = Pattern.compile("\\s*\"objectId\"\\s*:.*");
+    private List<String> sanitize(List<String> strings, final boolean check) {
+        final Pattern millis = Pattern.compile("\\s*\"millis\"\\s*:(.*)");
+        final Pattern correlationId = Pattern.compile("\\s*\"correlationId\"\\s*:(.*)");
+        final Pattern systemId = Pattern.compile("\\s*\"systemId\"\\s*:(.*)");
+        final Pattern sqlId = Pattern.compile("\\s*\"sqlId\"\\s*:(.*)");
+        final Pattern objectId = Pattern.compile("\\s*\"objectId\"\\s*:(.*)");
 
         // TODO assertions on these fields (long value / string length etc)
         return FluentIterable.from(strings).filter(new Predicate<String>() {
             @Override
             public boolean apply(String s) {
-                return !(millis.matcher(s).matches()
-                        || correlationId.matcher(s).matches()
-                        || systemId.matcher(s).matches()
-                        || sqlId.matcher(s).matches()
-                        || objectId.matcher(s).matches());
+                Matcher m = millis.matcher(s);
+                if (m.matches()) {
+                    if (check) Long.valueOf(m.group(1).replaceAll("[,\"\\s]", "")); // ?
+                    return false;
+                }
+                m = correlationId.matcher(s);
+                if (m.matches()) {
+                    if (check) assertEquals(22, m.group(1).replaceAll("[,\"\\s]", "").length());
+                    return false;
+                }
+                m = systemId.matcher(s);
+                if (m.matches()) {
+                    if (check) Long.valueOf(m.group(1).replaceAll("[,\"\\s]", "")); // ?
+                    return false;
+                }
+                m = sqlId.matcher(s);
+                if (m.matches()) {
+                    if (check) assertEquals(22, m.group(1).replaceAll("[,\"\\s]", "").length());
+                    return false;
+                }
+                m = objectId.matcher(s);
+                if (m.matches()) {
+                    if (check) Long.valueOf(m.group(1).replaceAll("[,\"\\s]", "")); // ?
+                    return false;
+                }
+                return true;
             }
         }).toList();
     }
