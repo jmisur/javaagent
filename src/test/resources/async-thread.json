@@ -167,8 +167,7 @@
         } ]
       }
     } ]
-  } ],
-  "result" : null
+  } ]
 },{
   "correlationId" : "06172b93-34d7-424b-b6cc-c108fdf5193c",
   "type" : "methodInvocation",
@@ -181,8 +180,7 @@
     "className" : "java.lang.String[]",
     "name" : "args",
     "value" : [ ]
-  } ],
-  "result" : null
+  } ]
 },{
   "correlationId" : "06172b93-34d7-424b-b6cc-c108fdf5193c",
   "type" : "methodInvocation",
@@ -352,8 +350,7 @@
         } ]
       }
     } ]
-  } ],
-  "result" : null
+  } ]
 },{
   "correlationId" : "06172b93-34d7-424b-b6cc-c108fdf5193c",
   "type" : "methodInvocation",
@@ -366,6 +363,5 @@
     "className" : "java.lang.String[]",
     "name" : "args",
     "value" : [ ]
-  } ],
-  "result" : null
+  } ]
 }]

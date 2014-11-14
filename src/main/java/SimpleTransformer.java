@@ -119,7 +119,7 @@ class SimpleTransformer implements ClassFileTransformer {
 
     private void setCorrelationId(CtBehavior method) throws CannotCompileException, NotFoundException {
         method.getDeclaringClass().addField(CtField.make("private final String correlationId = CorrelationIdHolder.get();", method.getDeclaringClass()));
-        method.insertBefore("{CorrelationIdHolder.set(correlationId);}");
+        method.insertBefore("{ CorrelationIdHolder.set(correlationId); }");
     }
 
     private boolean shouldSetCorrelationId(CtBehavior method) throws NotFoundException {
@@ -148,27 +148,34 @@ class SimpleTransformer implements ClassFileTransformer {
     }
 
     private boolean shouldChange(CtBehavior method) {
-        return !(method.getDeclaringClass().getPackageName() == null
-                || !method.getDeclaringClass().getPackageName().startsWith("com.jmisur")
-                || method.isEmpty()
-                || method.getName().equals("toString")
-                || method.getName().equals("hashCode")
-                || method.getName().equals("equals")
-                || method.getName().equals("$jacocoInit")
-                || method instanceof CtConstructor);
+        if (method.getDeclaringClass().getPackageName() == null) return false;
+        if (!method.getDeclaringClass().getPackageName().startsWith("com.jmisur")) return false;
+        if (method.isEmpty()) return false;
+        if (method.getName().equals("toString")
+            || method.getName().equals("hashCode")
+            || method.getName().equals("equals")
+            || method.getName().equals("$jacocoInit")) return false;
+        if (method instanceof CtConstructor) return false;
+
+        return true;
     }
 
     private void changeMethod(CtBehavior method) throws NotFoundException, CannotCompileException {
         method.insertBefore(before(method));
         method.insertAfter(after(method));
+        method.addCatch(catched(method), ClassPool.getDefault().get("java.lang.Exception"));
+    }
+
+    private String catched(CtBehavior method) {
+        return "{ SimpleMain.ex(\"" + method.getLongName() + "\", " + names(method) + ", $args, $e); throw $e; }";
     }
 
     private String before(CtBehavior method) {
-        return "{SimpleMain.before(\"" + method.getLongName() + "\", " + names(method) + ", $args);}";
+        return "{ SimpleMain.before(\"" + method.getLongName() + "\", " + names(method) + ", $args); }";
     }
 
     private String after(CtBehavior method) {
-        return "{SimpleMain.after(\"" + method.getLongName() + "\", " + names(method) + ", $args, $_);}";
+        return "{ SimpleMain.after(\"" + method.getLongName() + "\", " + names(method) + ", $args, $_); }";
     }
 
     private String names(CtBehavior method) {

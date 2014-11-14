@@ -1,0 +1,87 @@
+[{
+  "correlationId" : "LMPWY3jmw8epb9wJjRDA77",
+  "type" : "methodInvocation",
+  "millis" : 1415993756452,
+  "threadName" : "main",
+  "phase" : "before",
+  "signature" : "com.jmisur.FooEx.main(java.lang.String[])",
+  "params" : [ {
+    "systemId" : 876213901,
+    "className" : "java.lang.String[]",
+    "name" : "e",
+    "value" : [ ]
+  } ]
+},{
+  "correlationId" : "LMPWY3jmw8epb9wJjRDA77",
+  "type" : "methodInvocation",
+  "millis" : 1415993756560,
+  "threadName" : "main",
+  "phase" : "before",
+  "signature" : "com.jmisur.FooEx.doSomething()",
+  "params" : [ ]
+},{
+  "correlationId" : "LMPWY3jmw8epb9wJjRDA77",
+  "type" : "methodInvocation",
+  "millis" : 1415993756561,
+  "threadName" : "main",
+  "phase" : "after",
+  "signature" : "com.jmisur.FooEx.doSomething()",
+  "params" : [ ],
+  "exception" : {
+    "systemId" : 1825027294,
+    "className" : "com.jmisur.FooEx.FooException",
+    "fields" : [ {
+      "systemId" : 852445367,
+      "className" : "java.lang.String",
+      "name" : "detailMessage",
+      "value" : "This is not good"
+    }, {
+      "systemId" : 1738236591,
+      "className" : "java.lang.String",
+      "name" : "fooValue",
+      "value" : "FOO"
+    } ]
+  }
+},{
+  "correlationId" : "LMPWY3jmw8epb9wJjRDA77",
+  "type" : "methodInvocation",
+  "millis" : 1415993756576,
+  "threadName" : "main",
+  "phase" : "after",
+  "signature" : "com.jmisur.FooEx.main(java.lang.String[])",
+  "params" : [ {
+    "systemId" : 876213901,
+    "className" : "java.lang.String[]",
+    "name" : "e",
+    "value" : [ ]
+  } ],
+  "exception" : {
+    "systemId" : 2040352617,
+    "className" : "java.lang.RuntimeException",
+    "fields" : [ {
+      "systemId" : 1237598030,
+      "className" : "java.lang.String",
+      "name" : "detailMessage",
+      "value" : "com.jmisur.FooEx$FooException: This is not good"
+    }, {
+      "systemId" : 1825027294,
+      "className" : "com.jmisur.FooEx.FooException",
+      "name" : "cause",
+      "value" : {
+        "systemId" : 1825027294,
+        "className" : "com.jmisur.FooEx.FooException",
+        "fields" : [ {
+          "systemId" : 852445367,
+          "className" : "java.lang.String",
+          "name" : "detailMessage",
+          "value" : "This is not good"
+        }, {
+          "systemId" : 1738236591,
+          "className" : "java.lang.String",
+          "name" : "fooValue",
+          "value" : "FOO"
+        } ]
+      }
+    } ]
+  }
+}]

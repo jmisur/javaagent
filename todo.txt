@@ -1,6 +1,5 @@
 TODO
-tx boundary (commit/rollback)
-validation on millis/corellationId/etc
+loop
 dispatcher servlet
 spring security
 

@@ -14,7 +14,7 @@ abstract class MethodInvocation extends RecordObject {
     }
 
     void setParams(String[] paramNames, Object[] paramValues) {
-        params = new ArrayList<Parameter>(paramValues.length);
+        params = new ArrayList<>(paramValues.length);
 
         for (int i = 0; i < paramValues.length; i++) {
             params.add(new Parameter(paramNames[i], paramValues[i]));

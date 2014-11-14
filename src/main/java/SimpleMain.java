@@ -76,6 +76,15 @@ public class SimpleMain {
         log(mi);
     }
 
+    public static void ex(String methodName, String[] paramNames, Object[] paramValues, Object exception) {
+        MethodInvocationEnd mi = new MethodInvocationEnd();
+        mi.setParams(paramNames, paramValues);
+        mi.setSignature(methodName);
+        mi.setException(exception);
+
+        log(mi);
+    }
+
     static void log(Object o) {
         if (writer == null || paused) return;
 

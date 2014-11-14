@@ -162,8 +162,7 @@
         } ]
       }
     } ]
-  } ],
-  "result" : null
+  } ]
 },{
   "type" : "methodInvocation",
   "millis" : 1413839099289,
@@ -175,6 +174,5 @@
     "className" : "java.lang.String[]",
     "name" : "args",
     "value" : [ ]
-  } ],
-  "result" : null
+  } ]
 }]

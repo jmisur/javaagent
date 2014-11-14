@@ -1,12 +1,22 @@
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.BeanSerializer;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 
 import java.io.IOException;
+import java.util.Set;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 class ObjectSerializer extends BeanSerializer {
+
+    private Set<String> primitives = newHashSet("java.lang.Boolean", "java.lang.Byte", "java.lang.Character",
+            "java.lang.Float", "java.lang.Integer", "java.lang.Long", "java.lang.Short", "java.lang.Double",
+            "java.lang.String", "java.math.BigInteger", "java.math.BigDecimal");
+
+    private Set<String> primitiveArrays = newHashSet("java.lang.Boolean[]", "java.lang.Byte[]", "java.lang.Character[]",
+            "java.lang.Float[]", "java.lang.Integer[]", "java.lang.Long[]", "java.lang.Short[]", "java.lang.Double[]",
+            "java.lang.String[]", "java.math.BigInteger[]", "java.math.BigDecimal[]");
 
     ObjectSerializer(BeanSerializerBase source) {
         super(source);
@@ -19,7 +29,7 @@ class ObjectSerializer extends BeanSerializer {
     }
 
     @Override
-    protected void serializeFields(Object bean, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
+    protected void serializeFields(Object bean, JsonGenerator jgen, SerializerProvider provider) throws IOException {
         if (bean instanceof Parameter) {
             jgen.writeNumberField("systemId", System.identityHashCode(((Parameter) bean).getValue()));
             jgen.writeStringField("className", ((Parameter) bean).getValue().getClass().getCanonicalName());
@@ -45,7 +55,8 @@ class ObjectSerializer extends BeanSerializer {
     }
 
     private boolean isPrimitive(Object bean) {
-        return bean.getClass().getCanonicalName().startsWith("java.lang");
+        return primitives.contains(bean.getClass().getCanonicalName())
+                || primitiveArrays.contains(bean.getClass().getCanonicalName());
     }
 
     private void wrapFields(Object bean, JsonGenerator jgen, SerializerProvider provider) throws IOException {

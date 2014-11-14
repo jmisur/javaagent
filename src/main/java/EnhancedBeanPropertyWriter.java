@@ -11,6 +11,13 @@ class EnhancedBeanPropertyWriter extends BeanPropertyWriter {
 
     @Override
     public void serializeAsField(Object bean, JsonGenerator jgen, SerializerProvider prov) throws Exception {
+        if (bean instanceof Exception) {
+            if (_field.getName().equals("cause") && ((Exception) bean).getCause() == null)
+                return;
+            if (_field.getName().equals("stackTrace") || _field.getName().equals("suppressedExceptions")) // TODO include this
+                return;
+        }
+
         jgen.writeStartObject();
 
         Object field = get(bean);
