@@ -5,12 +5,23 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.FluentIterable;
+import org.springframework.aop.framework.ReflectiveMethodInvocation;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.expression.method.ExpressionAttributeHelper;
+import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.DefaultTransactionStatus;
 
 import java.io.*;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
+import java.util.Collection;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public class SimpleMain {
     private static ObjectMapper mapper = new ObjectMapper();
@@ -136,12 +147,14 @@ public class SimpleMain {
         tx.setName(definition.getName());
         log(tx);
     }
+
     public static void commitTx(DefaultTransactionStatus status) {
         Transaction tx = new Transaction();
         tx.setObjectId(System.identityHashCode(status.getTransaction()));
         tx.setPhase("commit");
         log(tx);
     }
+
     public static void rollbackTx(DefaultTransactionStatus status) {
         Transaction tx = new Transaction();
         tx.setObjectId(System.identityHashCode(status.getTransaction()));
@@ -149,6 +162,34 @@ public class SimpleMain {
         log(tx);
     }
 
+    public static void logSec(Object target, Collection<ConfigAttribute> attrs) {
+        SecurityLog log = new SecurityLog();
+        log.setAnnotation(ExpressionAttributeHelper.getExpression(attrs.iterator().next()));
+        log.setTargetMethod(getLongName((ReflectiveMethodInvocation) target));
+        log(log);
+    }
+
+    public static void logSecFailed(Object target, Collection<ConfigAttribute> attrs) {
+        SecurityLog log = new SecurityLog();
+        log.setAnnotation(ExpressionAttributeHelper.getExpression(attrs.iterator().next()));
+        log.setTargetMethod(getLongName((ReflectiveMethodInvocation) target));
+        log.setAccessDenied(true);
+        log(log);
+    }
+
+    private static String getLongName(ReflectiveMethodInvocation method) {
+        return method.getThis().getClass().getCanonicalName() + "." + method.getMethod().getName()
+                + "(" + Joiner.on(",").join(getParamTypeNames(method.getMethod().getParameterTypes())) + ")";
+    }
+
+    private static List<String> getParamTypeNames(Class<?>[] parameterTypes) {
+        return FluentIterable.from(newArrayList(parameterTypes)).transform(new Function<Class<?>, String>() {
+            @Override
+            public String apply(Class<?> input) {
+                return input.getCanonicalName();
+            }
+        }).toList();
+    }
 
     static void pause() {
         paused = true;

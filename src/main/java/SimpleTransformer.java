@@ -9,6 +9,7 @@ import java.security.ProtectionDomain;
 class SimpleTransformer implements ClassFileTransformer {
 
     public byte[] transform(ClassLoader loader, String className, Class redefiningClass, ProtectionDomain domain, byte[] bytes) throws IllegalClassFormatException {
+//        System.out.println("TRANS: " + className);
         return transformClass(redefiningClass, bytes);
     }
 
@@ -41,6 +42,9 @@ class SimpleTransformer implements ClassFileTransformer {
                     if (shouldCaptureSocket(methods[i])) {
                         captureSocket(methods[i]);
                     }
+                    if (shouldCaptureSec(methods[i])) {
+                        captureSec(methods[i]);
+                    }
                 }
             }
             b = cl.toBytecode();
@@ -54,7 +58,23 @@ class SimpleTransformer implements ClassFileTransformer {
         return b;
     }
 
-    private boolean shouldTransform(CtClass cl) {
+    private void captureSec(CtBehavior method) throws CannotCompileException, NotFoundException {
+        method.insertBefore("{ SimpleMain.logSec($2, $3); }");
+        method.addCatch("{ SimpleMain.logSecFailed($2, $3); throw $e; }",
+                ClassPool.getDefault().get("org.springframework.security.access.AccessDeniedException"));
+    }
+
+    private boolean shouldCaptureSec(CtBehavior method) throws NotFoundException {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("decide")) return false;
+        if (!method.getSignature().equals("(Lorg/springframework/security/core/Authentication;Ljava/lang/Object;Ljava/util/Collection;)V"))
+            return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "org.springframework.security.access.AccessDecisionManager"))
+            return false;
+
+        return true;
+    }
+
     private void captureSocket(CtBehavior method) throws CannotCompileException {
         method.insertAfter("{ $_ = CapturingInputStream.wrap($_); }");
     }
@@ -171,9 +191,9 @@ class SimpleTransformer implements ClassFileTransformer {
         if (!method.getDeclaringClass().getPackageName().startsWith("com.jmisur")) return false;
         if (method.isEmpty()) return false;
         if (method.getName().equals("toString")
-            || method.getName().equals("hashCode")
-            || method.getName().equals("equals")
-            || method.getName().equals("$jacocoInit")) return false;
+                || method.getName().equals("hashCode")
+                || method.getName().equals("equals")
+                || method.getName().equals("$jacocoInit")) return false;
         if (method instanceof CtConstructor) return false;
 
         return true;
