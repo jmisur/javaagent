@@ -24,21 +24,21 @@ public class SocketTest {
 
     @Before
     public void initServer() throws Exception {
-//        server = new Server(9998);
-//        server.setHandler(new TestHandler());
-//        server.start();
+        server = new Server(9998);
+        server.setHandler(new TestHandler());
+        server.start();
     }
 
     @After
     public void stopServer() throws Exception {
-//        server.stop();
+        server.stop();
     }
 
     @Test
     @CaptureRule.CompareTo("socket.json")
     public void testSocket() throws IOException, URISyntaxException {
-//        URLConnection conn = new URI("http://localhost:9998").toURL().openConnection();
-        URLConnection conn = new URI("http://www.google.com").toURL().openConnection();
+        URLConnection conn = new URI("http://localhost:9998").toURL().openConnection();
+//        URLConnection conn = new URI("http://www.google.com").toURL().openConnection();
 
         try (InputStream is = conn.getInputStream()) {
             IOUtils.toString(is);
