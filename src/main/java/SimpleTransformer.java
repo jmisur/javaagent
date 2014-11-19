@@ -38,6 +38,9 @@ class SimpleTransformer implements ClassFileTransformer {
                     if (shouldWrap(methods[i])) {
                         wrap(methods[i]);
                     }
+                    if (shouldCaptureSocket(methods[i])) {
+                        captureSocket(methods[i]);
+                    }
                 }
             }
             b = cl.toBytecode();
@@ -52,6 +55,22 @@ class SimpleTransformer implements ClassFileTransformer {
     }
 
     private boolean shouldTransform(CtClass cl) {
+    private void captureSocket(CtBehavior method) throws CannotCompileException {
+        method.insertAfter("{ $_ = CapturingInputStream.wrap($_); }");
+    }
+
+    private boolean shouldCaptureSocket(CtBehavior method) throws NotFoundException {
+        if (method.isEmpty()) return false;
+        if (!method.getName().equals("getInputStream")) return false;
+        if (!method.getSignature().equals("()Ljava/io/InputStream;")) return false;
+        if (!isInstanceOf(method.getDeclaringClass(), "java.net.URLConnection")) return false;
+
+        return true;
+    }
+
+    private boolean shouldTransform(CtClass cl) throws NotFoundException {
+        if (isInstanceOf(cl, "java.net.URLConnection")) return true;
+
         return cl.getPackageName() != null
                 && !cl.getPackageName().startsWith("sun")
                 && !cl.getPackageName().startsWith("java");

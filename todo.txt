@@ -1,6 +1,4 @@
-TODO
-loop
-dispatcher servlet
+incoming request
 spring security
 
 modes
@@ -64,3 +62,4 @@ web
 			trace forward/backward/all
 	search on current graph
 	tx as background wrapper (color)
+	method loop (recursion) - expand/collapse
