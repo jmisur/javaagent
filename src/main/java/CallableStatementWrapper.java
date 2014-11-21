@@ -586,43 +586,4 @@ public class CallableStatementWrapper extends PreparedStatementWrapper implement
         return target().getObject(parameterName, type);
     }
 
-    @Override
-    public void setObject(String parameterName, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        target().setObject(parameterName, x, targetSqlType, scaleOrLength);
-    }
-
-    @Override
-    public void setObject(String parameterName, Object x, SQLType targetSqlType) throws SQLException {
-        target().setObject(parameterName, x, targetSqlType);
-    }
-
-    @Override
-    public void registerOutParameter(int parameterIndex, SQLType sqlType) throws SQLException {
-        target().registerOutParameter(parameterIndex, sqlType);
-    }
-
-    @Override
-    public void registerOutParameter(int parameterIndex, SQLType sqlType, int scale) throws SQLException {
-        target().registerOutParameter(parameterIndex, sqlType, scale);
-    }
-
-    @Override
-    public void registerOutParameter(int parameterIndex, SQLType sqlType, String typeName) throws SQLException {
-        target().registerOutParameter(parameterIndex, sqlType, typeName);
-    }
-
-    @Override
-    public void registerOutParameter(String parameterName, SQLType sqlType) throws SQLException {
-        target().registerOutParameter(parameterName, sqlType);
-    }
-
-    @Override
-    public void registerOutParameter(String parameterName, SQLType sqlType, int scale) throws SQLException {
-        target().registerOutParameter(parameterName, sqlType, scale);
-    }
-
-    @Override
-    public void registerOutParameter(String parameterName, SQLType sqlType, String typeName) throws SQLException {
-        target().registerOutParameter(parameterName, sqlType, typeName);
-    }
 }

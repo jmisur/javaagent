@@ -295,20 +295,4 @@ public class PreparedStatementWrapper extends StatementWrapper implements Prepar
         target().setNClob(parameterIndex, reader);
     }
 
-    @Override
-    public void setObject(int parameterIndex, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        target().setObject(parameterIndex, x, targetSqlType, scaleOrLength);
-    }
-
-    @Override
-    public void setObject(int parameterIndex, Object x, SQLType targetSqlType) throws SQLException {
-        target().setObject(parameterIndex, x, targetSqlType);
-    }
-
-    @Override
-    public long executeLargeUpdate() throws SQLException {
-        return target().executeLargeUpdate();
-    }
-
-
 }

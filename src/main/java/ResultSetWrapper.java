@@ -983,26 +983,6 @@ class ResultSetWrapper implements ResultSet {
     }
 
     @Override
-    public void updateObject(int columnIndex, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        target.updateObject(columnIndex, x, targetSqlType, scaleOrLength);
-    }
-
-    @Override
-    public void updateObject(String columnLabel, Object x, SQLType targetSqlType, int scaleOrLength) throws SQLException {
-        target.updateObject(columnLabel, x, targetSqlType, scaleOrLength);
-    }
-
-    @Override
-    public void updateObject(int columnIndex, Object x, SQLType targetSqlType) throws SQLException {
-        target.updateObject(columnIndex, x, targetSqlType);
-    }
-
-    @Override
-    public void updateObject(String columnLabel, Object x, SQLType targetSqlType) throws SQLException {
-        target.updateObject(columnLabel, x, targetSqlType);
-    }
-
-    @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
         return target.unwrap(iface);
     }
