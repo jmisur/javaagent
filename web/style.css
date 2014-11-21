@@ -1,6 +1,33 @@
-.class {
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 200%;
+}
+
+.node {
+    display: inline-block;
+    *display: inline;
+    margin: 5px;
+    width: 200px;
+}
+
+.top {
+    padding: 2px;
     border: 2px solid grey;
     border-radius: 5px;
-    max-width: 300px;
-    margin: 5px;
+}
+
+.lane {
+    width: 50%;
+    border-right: 1px dashed grey;
+    height: 500px;
+}
+
+.method {
+    margin: 10px 2px 0 0;
+    text-align: right;
 }

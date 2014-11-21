@@ -28,7 +28,7 @@
             "phase": "before",
             "millis": 1413839099282,
             "threadName": "main",
-            "signature": "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
+            "signature": "com.jmisur.Foo2.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
             "params": [{
                 "systemId": 1629911510,
                 "className": "java.lang.Integer",
@@ -59,7 +59,7 @@
             "phase": "before",
             "millis": 1413839099286,
             "threadName": "main",
-            "signature": "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
+            "signature": "com.jmisur.Foo3.clone(com.jmisur.Foo$Data)",
             "params": [{
                 "systemId": 1970881185,
                 "className": "com.jmisur.Foo.Data",
@@ -84,7 +84,7 @@
             "phase": "after",
             "millis": 1413839099287,
             "threadName": "main",
-            "signature": "com.jmisur.Foo.clone(com.jmisur.Foo$Data)",
+            "signature": "com.jmisur.Foo3.clone(com.jmisur.Foo$Data)",
             "params": [{
                 "systemId": 1970881185,
                 "className": "com.jmisur.Foo.Data",
@@ -127,7 +127,7 @@
             "phase": "after",
             "millis": 1413839099288,
             "threadName": "main",
-            "signature": "com.jmisur.Foo.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
+            "signature": "com.jmisur.Foo2.setOuter(int,java.lang.String,com.jmisur.Foo$Data)",
             "params": [{
                 "systemId": 2092769598,
                 "className": "java.lang.Integer",
@@ -194,16 +194,59 @@
 
 </script>
 
+
+
 <script type="text/jsx">
+    var data = {};
+
+    trace.map(function(item) {
+        var sp = item.signature.split('\(');
+        var className = sp[0].split('.').slice(0, -1).join('.');
+
+        if (className in data) {
+            data[className].push(item);
+        } else {
+            data[className] = [item];
+        }
+    });
+
+    var Node = React.createClass({
+        render: function() {
+            var sp = this.props.data[0].signature.split('\(');
+            var className = sp[0].split('.').slice(0, -1).join('.');
+
+            return (
+                    <div className="node">
+                        <div className="top">
+                            {className}
+                        </div>
+                        <div className="lane">
+                        {this.props.data.map(function (item) {
+                            var sp = item.signature.split('\(');
+                            var method = sp[0].split('.').slice(-1)
+                            var sign = item.phase == "before" ?  '+' : '-';
+                            return (
+                                <div className="method">
+                                    {sign + method}
+                                </div>
+                            )
+                        })}
+                        </div>
+                    </div>
+                )
+        }
+    });
+
     var Table = React.createClass({
         render: function () {
+            var keys = Object.keys(this.props.data);
+            var data = this.props.data;
+
             return (
                     <div>
-                    {this.props.data.map(function (item) {
+                    {keys.map(function(key) {
                         return (
-                                <div key={item.millis} className="class">
-                                    {item.signature}
-                                </div>
+                            <Node data={data[key]} />
                         )
                     })}
                     </div>
@@ -219,7 +262,7 @@
         }
     });
 
-    React.render(<APP data={trace} />, document.body);
+    React.render(<APP data={data} />, document.body);
 </script>
 </body>
 </html>
